@@ -1,0 +1,202 @@
+Myro C README
+          Author:       David Cowden
+          Last Revised: July 14, 2011
+          
+
+The MyroC files provide a C interface for the C++ Myro project.  Using
+the 'extern "C"' keyword in C++, we can export c-linkable functions that
+make sense to the C compiler.
+
+This package depends on the Myro-Cpp project located at:
+
+> https://launchpad.net/myro-c++
+
+To ensure compatibility with our 'extern "C"' definitions, please use the
+'extern-c' branch of the project located here:
+
+> https://code.launchpad.net/~myroc/myro-c++/extern-c
+
+Myro-Cpp should be downloaded and installed before using our extern C
+wrappers. If you have administrative privileges, you can install Myro-Cpp
+in the standard directories for shared libraries (/usr/local). This
+requires no extra configuration on your part and is the preferred method.
+However, if a local install is required, you must alter the MYROINST path
+in the Makefile (or set the variable on the command line).  Point MYROINST
+to the directory containing your Myro-C++ installation.  
+
+In consideration of a local install, detailed instructions
+are provided for that case.  All references to _MYRO_CPP_LOCATION_ should
+be regarded as the local install directory of Myro-C++ (and not an
+environment variable).  If you have a standard install of Myro-Cpp,
+disregard extra instructions for pointing the compiler to the Myro-Cpp
+install location, or, simply use /usr/local as your install location -- it
+will do no harm.
+
+It may be helpful to define and export the two environment variables:
+CPP_INCLUDE_PATH
+LIBRARY_PATH
+so the gcc automatically finds the locally installed Myro-C++ libraries.
+These two variables do the job of (but will also be overridden by) the -I
+and -L flags used with gcc (and subsequently passed to ld). 
+
+To point the execution environment to the proper location, set and export:
+LD_LIBRARY_PATH
+
+Once Myro-C++ is installed and the MYROINST variable in the Makefile is
+updated, MyroC may be built.
+
+* As a general note, if you install Myro-Cpp locally, it may not be a bad
+* idea to install MyroC to the same location.  They should not conflict with
+* each other and it will reduce the number of environment variables you will
+* need to use to tell the linker where to look for libraries.  If you take
+* this into consideration, you would simply make INSTALLPATH the same as
+* MYROINST in the Makefile.
+
+_Compiling_MyroC:_
+
+Static Library:
+The easiest way to compile is to use the GNU Make program.
+Simply issue the:
+> make MyroC
+OR
+> make static
+command while in this directory to compile the MyroC.cpp library.  This
+will compile MyroC as a static library which can be used with standard C
+programs.  The new file will be:
+MyroC.o
+
+To install the files on your system, edit the Makefile INSTALLPATH to point
+to your desired local install directory and make the 'install' target.  If
+you wish not to change the local install directory, the default is
+/usr/local.  However, static libraries are not generally stored in
+/usr/local.  Something like $HOME/Myro would be more appropriate for a
+static library:
+> make install
+
+After you install the files, it is a good idea to create an alias for your
+compiler in order to simplify the process of compiling C programs using the
+MyroC static library as a typical compile command will look like this: 
+
+gcc -L_MYRO_CPP_LOCATION_/lib -lmyro-cpp -I~/Myro/include/MyroC \
+~/Myro/lib/MyroC.o YOUR_C_PROGRAM.c -o OUTFILE 
+
+One solution is to create a myrocc alias in your .bashrc file which looks
+like: 
+alias myrocc="gcc -LMYRO_CPP_LOCATION/lib -lmyro-cpp \
+-I$HOME/Myro/include/MyroC $HOME/Myro/lib/MyroC.o" 
+
+Then, programs can be compiled using a much simpler command:
+myrocc YOUR_C_PROGRAM.c -o OUTFILE
+
+The other solution is to compile and install MyroC as a shared library.
+Once everything is setup correctly, the gcc can be used without an alias
+and only one extra flag (which tells the linker you want to link against
+the libMyroC.so library). 
+
+
+Shared Library:
+To compile MyroC as a shared library, run the:
+> make MyroC/shared
+command while in this directory.  This will produce a shared library object
+file: 
+libMyroC.so.V.S.P
+where the V, S, and P are the current version, subversion, and patch numbers.
+
+The internal soname of the library will be:
+libMyroC.so.V
+
+To install the MyroC library to the default directory (/usr/local), issue
+the: 
+> make install/shared
+command as a super user.  If you want to change the install path then edit
+the INSTALLPATH variable in the Makefile before making the install/shared
+target.  
+
+The install process will add libMyroC.so.V.S.P file to your
+INSTALLPATH/lib folder and will create symlinks libMyroC.so and
+libMyroC.so.V that point to the appropriate version of libMyroC 
+
+To link with the library, add the:
+-lMyroC 
+flag at compile time.
+
+A standard compile command will look like this:
+
+gcc -lMyroC YOUR_C_PROGRAM.c -o OUTFILE
+
+NOTE: If you install the shared library to a location other than the system
+default, programs will not link until you set up your
+environment properly. If you require a local install, READ BELOW: 
+
+Setting up the compiling environment.
+
+If you are using MyroC as a shared library (libMyroC.so) and you cannot
+install it in /usr/local, then you will need to configure you environment
+to find the library when needed (similar to what was suggested for a local
+install of the Myro-C++).  To do so, add the following lines to you .bashrc
+file:
+
+## Myro C -- When using libMyroC.so
+#include the location of the MyroC header
+C_INCLUDE_PATH="$C_INCLUDE_PATH:_INSTALLPATH_include/MyroC"
+#include the location of the MyroC shared library object file
+LIBRARY_PATH="$LIBRARY_PATH:_INSTALLPATH_/lib"
+
+NOTE:
+*  Replace _INSTALLPATH_ with the path you set for a local install in the
+*  Makefile *
+
+Setting up the runtime environment.
+
+Next, the operating system will need to know where to look for the
+dynamically linked shared library at runtime.  If you are using MyroC as a
+static library then only the location of the myro-cpp library need be
+know.  This should already be the case if you installed Myro-Cpp properly
+or in the default system location.
+
+If you are using MyroC as a shared library, add its location to ld's
+LD_LIBRARY_PATH.  Add the following two lines to your .bashrc file:
+
+#make the libraries know to the execution environment
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:_INSTALLPATH_/lib"
+
+Now, the previously set variables need to be exported to any spawned
+shells.  Add them to your export statement and move your export statement
+to the end of your .bashrc file. Or, simply add another export statement as
+follows: 
+
+export CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH LD_LIBRARY_PATH 
+
+Finally, make sure to re-source all your shells or simply reboot your
+machine after setting everything up. 
+
+
+Compiling without GNU Make:
+_If you do not wish to use Make, follow the instructions below:_
+
+To compile the MyroC source, you must link against the appropriate Myro
+libraries.  If Myro-C++ is installed in the standard location, the command
+to compile a static library is simply:
+
+g++ -lmyro-cpp -c MyroC.cpp
+
+If you need to point g++ to the Myro-C++ install (because you don't have
+environment variables set) use:
+        
+g++ -I_MYRO_CPP_LOCATION_/include/Myro-Cpp -L_MYRO_CPP_LOCATION_/lib \
+-lmyro-cpp -c MyroC.cpp 
+ 
+This creates a MyroC.o object file that can be used with C programs to
+interact with the Myro robots.
+
+To compile a generic C program with Myro capabilities you should simply
+include the MyroC.h header and link against the MyroC.o object
+file.
+
+gcc -lmyro-cpp -I_INSTALLPATH_/include/MyroC MyroC.o YOUR_C_PROGRAM.c \
+-o OUTFILE
+
+or:
+
+gcc -I_MYRO_CPP_LOCATION_/include/Myro-Cpp -L_MYRO_CPP_LOCATION_/lib \
+-lmyro-cpp -I_INSTALLPATH_/include/MyroC MyroC.o YOURPROGRAM.c -o OUTPUTNAME 

@@ -1,0 +1,17 @@
+Instalacion
+===========
+
+make MyroC
+make install
+
+
+Compilacion de un programa en C
+===============================
+
+gcc -o motor -L/usr/local/lib -lmyro-cpp /usr/local/lib/MyroC.o motor.c
+
+
+Ejecucion
+=========
+
+LD_LIBRARY_PATH=/usr/local/lib ./motor
