@@ -1664,9 +1664,9 @@ class Scribbler(Robot):
     def _write(self, rawdata):
         t = map(lambda x: chr(int(x)), rawdata)
         data = string.join(t, '') + (chr(0) * (Scribbler.PACKET_LENGTH - len(t)))[:9]
-        print "_write:", data, len(data),
-	print "data:",
-	print map(lambda x:"0x%x" % ord(x), data)
+#       print "_write:", data, len(data),
+#	print "data:",
+#	print map(lambda x:"0x%x" % ord(x), data)
         if self.debug:
             print "_write:", data, len(data),
             print "data:",
