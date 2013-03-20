@@ -1,0 +1,7 @@
+Este es el codigo fuente que se compila en arduino
+y se utiliza en el arduino con el atmega 8.
+
+Controla los motores legos con un puente H L293D, los leds, y el parlante.
+Implementando a bajo nivel el protocolo de Myro (http://myro.roboteducation.org/)
+Se comunica con la placa Linux a traves del serial.
+
