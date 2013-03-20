@@ -1,0 +1,9 @@
+Instalar MyRo desde la pagina web :
+
+ http://wiki.roboteducation.org/Linux_Setup
+
+Y luego, sobreescribir el archivo 
+/usr/local/lib/python2.7/dist-packages/myro/robots/scribbler.py
+con el archivo scribbler.py provisto en este directorio.
+
+
