@@ -86,8 +86,12 @@ void motorspeed(int motor1speed, int motor2speed) {
 
 	if (motor1speed > M1_MAX_SPEED) motor1speed = M1_MAX_SPEED; /* limit top speed */
 	if (motor2speed > M2_MAX_SPEED) motor2speed = M2_MAX_SPEED; /* limit top speed */
-	if (motor1speed < 0) motor1speed = 0; /* keep motor speed above 0 */
-	if (motor2speed < 0) motor2speed = 0; /* keep motor speed above 0 */
+	/* El robot actual no puede ir a menos de velocidad==30, por el peso */
+	if (motor1speed < 35) motor1speed = 35; /* keep motor speed above 0 */
+	if (motor2speed < 35) motor2speed = 35; /* keep motor speed above 0 */
+	/* if (motor1speed < 0) motor1speed = 0; */ /* keep motor speed above 0 */
+	/* if (motor2speed < 0) motor2speed = 0; */ /* keep motor speed above 0 */
+
 	analogWrite(enablePin1, motor1speed);
 	analogWrite(enablePin2, motor2speed);
 } 
