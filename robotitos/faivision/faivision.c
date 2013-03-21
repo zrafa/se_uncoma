@@ -90,7 +90,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	int x, y;
 	reset_vars();
 
-	comm_get_http_file("http://192.168.2.100:8080/?action=snapshot", "archivo.jpg");
+	comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg");
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
 	 */
