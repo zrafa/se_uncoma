@@ -12,7 +12,7 @@ def fun():
 			ro.turnLeft(.3, .5)
 			movimiento = 0
 			wait(3)
-		if movimiento == 0:
+		elif movimiento == 0:
 			movimiento = 1
 			ro.forward(.1)
 			
