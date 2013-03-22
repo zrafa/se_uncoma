@@ -74,7 +74,7 @@ void actualizar_estado(int x1, int y1, int x2, int y2) {
 	int i;
 
 	for (i=rojo;i<=negro;i++) {
-		printf(" i=%i, objetos count : %i\n", i, objetos[i][count]);
+		/* printf(" i=%i, objetos count : %i\n", i, objetos[i][count]); */
 		objetos[i][x] = objetos[i][totx] / objetos[i][count];
 		objetos[i][y] = objetos[i][toty ]/ objetos[i][count];
 		objetos[i][porc] = objetos[i][count] * 100 / ((x2-x1)*(y2-y1));
