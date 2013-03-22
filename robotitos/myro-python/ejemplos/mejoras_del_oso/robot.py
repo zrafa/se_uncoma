@@ -21,8 +21,8 @@ def nmOn():
 	subprocess.call(["/etc/init.d/network-manager", "start"])
 
 def netOn():
-	subprocess.call(["/sbin/iwconfig", "wlan0","essid","OpenWrt"])
-	subprocess.call(["/sbin/ifconfig", "wlan0","192.168.2.101"])
+	subprocess.call(["/sbin/iwconfig", "wlan0","essid","robotsfai"])
+	subprocess.call(["/sbin/ifconfig", "wlan0","10.0.20.5"])
 	#subprocess.call(["/bin/ping", "-c 4", "192.168.2.100"])
 
 def lsterms():
