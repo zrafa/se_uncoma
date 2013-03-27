@@ -1,16 +1,19 @@
-/* Simple Ejemplo utilizando sockets con ser2net para enviar mensajes al robot */
+/* Simple Ejemplo que sincroniza con el robot de la FAI */
 
-/* Este programa le consulta al robot su nombre, y luego hace forward(1,2) */
+/* 
+ * Sincronizar es "conversar" con el robot (con el atmega8), para que
+ * el robot se posicione a la espera de un nuevo paquete con instrucciones 
+ */
+
+/* 
+ * Este sync consulta dos veces el nombre al robot. Si en el primer
+ * intento, el robot estaba en un estado "indefinible", recién
+ * a la segunda consulta de su nombre quedará en correcta sintonia.
+ */
 
 /* 
  * Testeado en Debian
- * Robot con bluetooth
- * Debian PC configurado con el bluetooth viendo el robot
- * ser2net instalado en Debian
- *   configuracion de ser2net en Debian : cat /etc/ser2net.conf
- *   2000:raw:666:/dev/rfcomm0:9600 8DATABITS NONE -XONXOFF -RTSCTS
- * Reiniciamos ser2net /etc/init.d/ser2net restart
- * Ejecutamos este programa
+ * Robot con placa Linux tp-link mr3020
  */
 
 #include <sys/types.h>
@@ -25,20 +28,25 @@
 #include <fcntl.h>
 
 
-int main(void) {
+int main (int argc, char *argv[]) {
 
 	int sockfd;
 	int len;
 	struct sockaddr_in address;
 	int res, i;
 
+	if (argc != 2) {
+		printf("Uso: robot_sync IP_ADDRESS\n");
+		exit(1);
+	}
+
 	/*  Crear socket cliente */
     	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
 	/*  Socket local */
 	address.sin_family = AF_INET;
-	// address.sin_addr.s_addr = inet_addr("192.168.2.100");
-	address.sin_addr.s_addr = inet_addr("10.0.20.201");
+	/* address.sin_addr.s_addr = inet_addr("10.0.20.201"); */
+	address.sin_addr.s_addr = inet_addr(argv[2]);
 	address.sin_port = htons(2000);
 	len = sizeof(address);
 
@@ -59,7 +67,6 @@ int main(void) {
 	char respuesta[8];
 
 	int ok = 0;
-	int no_salir = 1;
 
 	int flags;
 	flags = fcntl(sockfd, F_GETFL, 0); /* get current file status flags */
