@@ -105,5 +105,10 @@ def init():
 
 
 init()
+robot.setLED("left", "off")
+wait(3)
 robot.setLED("left", "on")
+robot.forward(.1, 4)
+wait(3)
+robot.setLED("left", "off")
 killallSocat()

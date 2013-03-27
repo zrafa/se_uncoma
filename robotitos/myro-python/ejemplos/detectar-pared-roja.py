@@ -23,5 +23,5 @@ import ctypes
 vision = ctypes.CDLL("/usr/local/lib/libfaivision.so")
 vision.faivision_init()
 
-ro = Scribbler("/dev/pts/15")
+ro = Scribbler("/dev/pts/3")
 fun()
