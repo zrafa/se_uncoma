@@ -2,6 +2,7 @@ SHELL = /bin/sh
 
 CFLAGS = -Wall -O2
 LIBFLAGS = -lSDL -lSDL_image -lcurl 
+INSTALL_DIR = /usr/local/lib
 
 objects = comm.o faivision.o
      
@@ -14,4 +15,9 @@ $(objects): %.o: %.c
 clean: 
 	rm -f *.o libfaivision.so $(objects) core core.*
 
+install:
+	cp libfaivision.so $(INSTALL_DIR)
+
+uninstall:
+	rm $(INSTALL_DIR)/libfaivision.so
 

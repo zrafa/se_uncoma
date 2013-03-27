@@ -44,7 +44,7 @@ def killallSocat():
 	
 
 def synch():
-	return subprocess.check_output(["./robot_sync"])
+	return subprocess.check_output(["duino_sync"])
 	
 def faivision():
 	import ctypes
