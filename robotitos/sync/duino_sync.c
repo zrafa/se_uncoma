@@ -46,7 +46,7 @@ int main (int argc, char *argv[]) {
 	/*  Socket local */
 	address.sin_family = AF_INET;
 	/* address.sin_addr.s_addr = inet_addr("10.0.20.201"); */
-	address.sin_addr.s_addr = inet_addr(argv[2]);
+	address.sin_addr.s_addr = inet_addr(argv[1]);
 	address.sin_port = htons(2000);
 	len = sizeof(address);
 
