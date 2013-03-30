@@ -37,6 +37,7 @@ def spawnSocat():
 	socatBin = "/usr/bin/socat"
 	socatCmd = [socatBin,"pty,raw,echo=0","tcp:10.0.20.201:2000"]
 	p = subprocess.Popen(socatCmd)
+	wait(2)
 	return p.pid
 
 def killallSocat():
