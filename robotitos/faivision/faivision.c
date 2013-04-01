@@ -14,6 +14,8 @@
 #include "faivision.h"
 
 
+enum lenguaje leng;
+
 /*
  * Return the pixel value at (x, y)
  * NOTE: The surface must be locked before calling this!
@@ -91,13 +93,17 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	reset_vars();
 
 	comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg");
+
+	SDL_Surface* surf;
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
 	 */
-	// system("convert archivo.jpg archivo.bmp");
+	if (leng == C) {
+		system("convert archivo.jpg archivo.bmp");
+		surf = SDL_LoadBMP("archivo.bmp");
+	} else
+		surf = IMG_Load("archivo.jpg");
 
-	// SDL_Surface* surf = SDL_LoadBMP("archivo.bmp");
-	SDL_Surface* surf = IMG_Load("archivo.jpg");
 	if (surf == NULL) {
 		printf("Oh My Goodness, an error : %s", IMG_GetError());
 		exit(1);
@@ -138,7 +144,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 }
 
 
-void faivision_init(void) {
+void faivision_init(enum lenguaje l) {
 
     /* Initialize the SDL library */
     if( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
@@ -151,6 +157,7 @@ void faivision_init(void) {
     atexit(SDL_Quit);
 	signal(SIGINT, SIG_DFL);
 
+	leng = l;
     
 }
 
