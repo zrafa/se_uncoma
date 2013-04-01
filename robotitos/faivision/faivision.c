@@ -77,7 +77,7 @@ void actualizar_estado(int x1, int y1, int x2, int y2) {
 		/* printf(" i=%i, objetos count : %i\n", i, objetos[i][count]); */
 		objetos[i][x] = objetos[i][totx] / objetos[i][count];
 		objetos[i][y] = objetos[i][toty ]/ objetos[i][count];
-		objetos[i][porc] = objetos[i][count] * 100 / ((x2-x1)*(y2-y1));
+		objetos[i][porc] = objetos[i][count] * 100 / ((x2-x1)/2*(y2-y1)/2);
 
 	}
 }
@@ -94,16 +94,17 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
 	 */
-	system("convert archivo.jpg archivo.bmp");
+	// system("convert archivo.jpg archivo.bmp");
 
-	SDL_Surface* surf = SDL_LoadBMP("archivo.bmp");
+	// SDL_Surface* surf = SDL_LoadBMP("archivo.bmp");
+	SDL_Surface* surf = IMG_Load("archivo.jpg");
 	if (surf == NULL) {
 		printf("Oh My Goodness, an error : %s", IMG_GetError());
 		exit(1);
 	}
 
-	for (x=x1; x<x2; x++)
-	for (y=y1; y<y2; y++) {
+	for (x=x1; x<x2; x=x+2)
+	for (y=y1; y<y2; y=y+2) {
 		
 		pixel = getpixel(surf, x, y);
 		SDL_GetRGB(pixel, surf->format, &r, &g, &b);
@@ -136,7 +137,6 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	SDL_FreeSurface(surf);
 }
 
-SDL_Surface *screen;
 
 void faivision_init(void) {
 
@@ -152,16 +152,6 @@ void faivision_init(void) {
 	signal(SIGINT, SIG_DFL);
 
     
-    /*
-     * Initialize the display in a 640x480 8-bit palettized mode,
-     * requesting a software surface
-     */
-    screen = SDL_SetVideoMode(640, 480, 8, SDL_SWSURFACE);
-    if ( screen == NULL ) {
-         fprintf(stderr, "Couldn't set 640x480x8 video mode: %s\n",
-                         SDL_GetError());
-         exit(1);
-     }
 }
 
 
