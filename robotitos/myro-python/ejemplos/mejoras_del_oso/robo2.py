@@ -45,14 +45,14 @@ def killallSocat():
 	
 
 def synch():
-	return subprocess.check_output(["duino_sync"])
+	return subprocess.check_output(["duino_sync", "10.0.20.201"])
 	
 	
 def faivision():
 	import ctypes
 	global vision
 	vision = ctypes.CDLL("/usr/local/lib/libfaivision.so")
-	vision.faivision_init()
+	vision.faivision_init(0)
 
 def foto():
 	url = "http://10.0.20.201:8080?action=snapshot"
