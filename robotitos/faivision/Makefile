@@ -7,7 +7,7 @@ INSTALL_DIR = /usr/local/lib
 objects = comm.o faivision.o
      
 all: $(objects)
-	$(CC) $(CFLAGS) $(LIBFLAGS) -shared -o libfaivision.so $(objects)
+	$(CC) $(CFLAGS) $(LIBFLAGS) -shared -o libfaivision.so $(objects) $(LIBFLAGS)
      
 $(objects): %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
