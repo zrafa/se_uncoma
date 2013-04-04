@@ -14,6 +14,7 @@ AZUL=2
 BLANCO=3
 NEGRO=4
 
+PYTHON=0
 
 def nmOff():
 	subprocess.call(["/etc/init.d/network-manager", "stop"])
@@ -52,7 +53,7 @@ def faivision():
 	import ctypes
 	global vision
 	vision = ctypes.CDLL("/usr/local/lib/libfaivision.so")
-	vision.faivision_init(0)
+	vision.faivision_init(PYTHON)
 
 def foto():
 	url = "http://10.0.20.201:8080?action=snapshot"
@@ -73,6 +74,32 @@ def buscarcolor(color):
 def cuantocolor(color):
 	return vision.objeto_porc(color)
 	
+def luz_izq_on():
+	setLED("left", "on")
+
+def luz_izq_off():
+	setLED("left", "off")
+
+def luz_der_on():
+	setLED("right", "on")
+
+def luz_der_off():
+	setLED("right", "off")
+
+def bipbip():
+	beep(.3, .29)
+	beep(.3, .29)
+
+def parpadear():
+	for i in range(3):
+		luz_izq_on()
+		luz_der_on()
+		wait(.3)
+		luz_izq_off()
+		luz_der_off()
+		wait(.3)
+
+
 def init():
 #	nmOff()
 	netOn()
@@ -82,21 +109,21 @@ def init():
 	synchOutput = synch()
 	wait(4)
 
-	print "SYNCH ",synchOutput
+	# print "SYNCH ",synchOutput
 	terms_before = lsterms()
 	socatPid = spawnSocat()
-	print "socat pid = ",socatPid
+	# print "socat pid = ",socatPid
 	terms_after = lsterms()
-	print "TERMS BEFORE ",terms_before
-	print "TERMS AFTER ",terms_after
+	# print "TERMS BEFORE ",terms_before
+	# print "TERMS AFTER ",terms_after
 	socat_term = ''
 	terms_before_w = terms_before.split()
 	terms_after_w = terms_after.split()
 	for t in terms_after_w:
-		print  t
+		# print  t
 		if not t in terms_before_w:
 			socat_term = "/dev/pts/%d" % (int(t))
-	print "SOCAT_TERM ",socat_term
+	# print "SOCAT_TERM ",socat_term
 	global robot
 	robot = Scribbler(socat_term)
 	robot.getName()
