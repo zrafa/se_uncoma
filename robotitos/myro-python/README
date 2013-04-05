@@ -1,6 +1,11 @@
+Se puede intentar instalar todo el software de manera automatica con 
+
+wget https://github.com/zrafa/se_uncoma/raw/master/robotitos/myro-python/instalar-myro.sh
+sudo ./instalar-myro.sh
+
 Instalar MyRo desde la pagina web :
 
- http://wiki.roboteducation.org/Linux_Setup
+http://wiki.roboteducation.org/Linux_Setup
 
 Y luego, sobreescribir el archivo 
 /usr/local/lib/python2.7/dist-packages/myro/robots/scribbler.py
