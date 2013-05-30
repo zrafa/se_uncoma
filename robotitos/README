@@ -1,3 +1,8 @@
 
 Para bajar el consumo de energía del Linux mr3020
 http://www.techrepublic.com/blog/opensource/using-iwconfig-to-configure-settings-on-wireless-cards/3573
+
+
+Para flashear el tplink
+socat pty,raw,echo=0 tcp:10.0.20.201:2000
+avrdude -C/etc/avrdude.conf -v -v -v -v -patmega8 -carduino -P/dev/pts/5 -b19200 -D -Uflash:w:eco_serial.hex:i
