@@ -5,3 +5,14 @@ Controla los motores legos con un puente H L293D, los leds, y el parlante.
 Implementando a bajo nivel el protocolo de Myro (http://myro.roboteducation.org/)
 Se comunica con la placa Linux a traves del serial.
 
+
+En tplink:
+# cat /etc/ser2net.conf
+2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS
+Iniciar ser2net.
+
+Desde la PC :
+socat pty,raw,echo=0 tcp:10.0.20.201:2000
+
+Reiniciar el atmega8, y rapidamente desde PC (antes que el bootloader finalice la espera):
+avrdude -C/etc/avrdude.conf -v -v -v -v -patmega8 -carduino -P/dev/pts/5 -b19200 -D -Uflash:w:faiduino_test.cpp.hex:i

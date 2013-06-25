@@ -15,6 +15,7 @@
 
 
 enum lenguaje leng;
+char * robot_ip;
 
 /*
  * Return the pixel value at (x, y)
@@ -90,9 +91,13 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	Uint32 pixel;
 
 	int x, y;
+	char url[80];
+
 	reset_vars();
 
-	comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg");
+	sprintf(url,"http://%s:8080/?action=snapshot", robot_ip);
+	/* comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg"); */
+	comm_get_http_file(url, "archivo.jpg");
 
 	SDL_Surface* surf;
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
@@ -144,7 +149,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 }
 
 
-void faivision_init(enum lenguaje l) {
+void faivision_init(enum lenguaje l, const char *ip) {
 
     /* Initialize the SDL library */
     if( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
@@ -158,6 +163,9 @@ void faivision_init(enum lenguaje l) {
 	signal(SIGINT, SIG_DFL);
 
 	leng = l;
+
+	robot_ip = strdup(ip);
+	/* FIXME : deberiamos ver que sucede si strdup() falla */
     
 }
 

@@ -9,7 +9,7 @@ enum lenguaje {python, C};
 
 void detectar_objetos(int x1, int y1, int x2, int y2);
 
-void faivision_init(enum lenguaje l);
+void faivision_init(enum lenguaje l, const char *ip);
 
 int objeto_x(int c);
 int objeto_y(int c);
