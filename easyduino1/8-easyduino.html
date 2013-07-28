@@ -1,0 +1,127 @@
+UnitàPeriferica </>
+Cerca...	
+
+  * Home </>
+  * Elettronica </index.php/elettronica>
+  * 3D Printer </index.php/3d-printer-2>
+
+
+Sei qui: Home </> Elettronica </index.php/elettronica-2> EasyDuino
+
+
+      Menu Principale
+
+  * Home </>
+  * Elettronica </index.php/elettronica-2>
+  * 3D Printer </index.php/3d-printer>
+  * Cerca </index.php/cerca>
+  * Contattaci </index.php/contattaci>
+  * Download </index.php/download>
+  * Area Riservata </index.php/area-riservata>
+
+
+      Pubblicità Esterne
+
+
+      Login
+
+Nome utente
+
+Password
+
+Ricordami
+
+  * Password dimenticata? </index.php/il-tuo-profilo?view=reset>
+  * Nome utente dimenticato? </index.php/il-tuo-profilo?view=remind>
+  * Registrati </index.php/il-tuo-profilo?view=registration>
+
+
+    EasyDuino </index.php/elettronica-2/8-easyduino>
+
+  * Stampa
+    </index.php/elettronica-2/8-easyduino?tmpl=component&print=1&layout=default&page=>
+
+  * Email
+    </index.php/component/mailto/?tmpl=component&template=lightbreeze-yellow&link=ae97681cad719234d59e14c38df9e0561abc8e2c>
+
+
+Dettagli
+    Categoria: Progetti Elettronici </index.php/elettronica-2>	
+    Pubblicato Domenica, 12 Agosto 2012 14:36 
+    Scritto da Marco Ritrivi 
+    Visite: 767 
+
+
+  EasyDuino Single Side Arduino Clone
+
+Questo è l'ennesimo clone di Arduino!!! il suo schema elettrico è simile
+a quello di Paperduino  (per dettagli:
+http://txapuzas.blogspot.com/2010/07/paperduino-pcb.html , con
+l’occasione approfitto per ringraziare gli autori per  lo spunto e
+complimentarmi per l'ottimo lavoro svolto ).
+
+La disposizione delle uscite sono identiche ad arduino (tranne i 3.3V)
+perciò, risulta perfettamente compatibile con tutti gli Shield che non
+richiedono alimentazione da 3.3V o connessione con ICSP.
+
+E’ stato testato con diversi Shield, LCD e Servomotori con i quali
+funziona perfettamente!! 
+
+lo schema elettrico e ridotto al minimo, che a differenza di Arduino,
+non risultano esserci le porte USB e  RS232, che per molte applicazioni
+stand-alone non sono necessarie.
+
+Il  circuito stampato è a singola faccia,questo per rendere il più
+economico possibile la realizzazione.
+
+Il costo di realizzazione è di circa 10€ ( più la soddisfazione di
+averlo realizzato ). L'idea è nata quando , finito il progetto per un
+applicazione stand alone , non volevo lasciare nel box un Arduino con
+programmazione originale e con tanto di comunicazione USB che non avrei
+mai usato.
+
+Cercando  in rete  ho trovato molti cloni ridotti ai minimi componenti
+ , ma tutti avevano un circuito a doppia faccia. Ho trovato interessante
+Paperduino , finalmente a faccia singola (da poter fare in casa) ma la
+sua piedinatura non lo rende compatibile con gli shield (a meno che non
+si utilizzi un adattatore). Cosi è nato EasyDuino!
+
+Ma come si programma?
+
+è molto semplice basta un cavo FTDI , io uso il cavo dati di un
+telefonino NOKIA
+http://txapuzas.blogspot.com/2010/07/cable-de-programacion-para-arduino-ftdi.html
+<http://txapuzas.blogspot.com/2010/07/cable-de-programacion-para-arduino-ftdi.html>
+
+Una volta collegato il cavo e alimentata la scheda,  diventa un Arduino
+a tutti gli effetti.
+
+Nei download è presente anche la versione 1.1 , con i pinheader per FTDI
+montati a 90° i quali permettono di lasciare il cavo inserito anche con
+lo Shield montato.
+
+P.S. in caso acquistiate un atmega168 o 328 vergine ricordate che prima
+di utilizzarlo è necessario caricargli il bootloader. Operazione
+semplice da effettuare con un cavo parallelo modificato.
+
+Per la parte relativa all’ ICSP e per l'upload del bootloader ho
+realizzato un mini shield  (ci sono delle ottime guide ai seguenti link:
+http://www.arduino.cc/en/Hacking/Bootloader e cavo parallelo
+http://arduino.cc/en/Hacking/ParallelProgrammer )
+
+Il Quarzo e i condensatori elettrolitici, consiglio di montarli
+orizzontalmente come in fotografia, per evitare collisioni con gli
+Shields (Rev3).
+
+Questo è il mini Shield per l'upload del bootloader.  la scheda non è
+necessaria se si acquista un atmega 328 o 168 con bootloader precaricato
+
+Per il caricamento degli Sketch senza l'utilizzo del cavo FTDI è
+possibile realizzare uno dei 2 shield riportati in seguito per poter
+programmare EasyDuino mediante una comune porta seriale RS232 io
+consiglio di utilizzare quello con il MAX232 molto più performante
+
+Link Alla pagina dei Download </index.php/download>
+
+©2013 UnitàPeriferica | Joomla Templates <http://www.hurricanemedia.net>
+by Hurricane Media
