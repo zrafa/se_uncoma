@@ -1,0 +1,33 @@
+
+dia 1
+	Explicacion de git
+	Bajada del codigo fuente
+	Utilizar Arduino
+	Ejercicio de programacion Arduino
+	Tarea para el Hogar
+
+dia 2
+	Armar Easyduino
+	Testear Easyduino
+	Instructivo
+	Tarea para el Hogar
+
+dia 3
+	Armar controlador de motores
+	Instructivo
+	Tarea para el Hogar
+
+dia 4
+	Configurar el software Linux
+	Instructivo
+	Tarea para el Hogar
+
+dia 5
+	Armar el robot fisico
+	Asado
+	Tarea para el proyecto
+
+Posibles taras :
+
+
+
