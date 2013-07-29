@@ -1,33 +1,39 @@
 
 dia 1
-	Explicacion de git
+	GIT
 	Bajada del codigo fuente
-	Utilizar Arduino
+	ARDUINO : Utilizar Arduino
 	Ejercicio de programacion Arduino
 	Tarea para el Hogar
 
 dia 2
-	Armar Easyduino
-	Testear Easyduino
+	EASYDUINO : Armar Easyduino
 	Instructivo
 	Tarea para el Hogar
 
 dia 3
+	EASYDUINO : Armar Easyduino
+	Testear Easyduino
+	Tarea para el Hogar
+
+dia 4
+	EASYDUINO : Armar Easyduino
 	Armar controlador de motores
 	Instructivo
 	Tarea para el Hogar
 
-dia 4
+dia 5
 	Configurar el software Linux
 	Instructivo
-	Tarea para el Hogar
-
-dia 5
-	Armar el robot fisico
+	Testear el funcionamiento de HW y SW del Robot Educativo
 	Asado
-	Tarea para el proyecto
 
-Posibles taras :
+Tareas futuras 
+	Armar el robot fisico
+	Publicar la documentacion del Taller (web)
+	Mejorar el codigo (Software)
+	Mejorar los esquematicos y los diseños de los circuitos impresos
+
 
 
 
