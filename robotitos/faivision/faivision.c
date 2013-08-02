@@ -102,6 +102,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	SDL_Surface* surf;
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
+         * ALGUIEN QUE ENCUENTRE UNA SOLUCION
 	 */
 	if (leng == C) {
 		system("convert archivo.jpg archivo.bmp");
