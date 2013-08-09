@@ -102,6 +102,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	SDL_Surface* surf;
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
+         * ALGUIEN QUE ENCUENTRE UNA SOLUCION
 	 */
 	if (leng == C) {
 		system("convert archivo.jpg archivo.bmp");
@@ -129,15 +130,15 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 			actualizar_subestado(blanco, x, y);
 
 		/* rojo */
-		else if ((r>=160) && (g<=120) && (b<=120))
+		else if ((r>(g+40)) && (r>(b+40)))
 			actualizar_subestado(rojo, x, y);
 
 		/* verde */
-		else if ((r<=120) && (g>=160) && (b<=120))
+		else if ((g>(r+40)) && (g>(b+40)))
 			actualizar_subestado(verde, x, y);
 
 		/* azul */
-		else if ((r<=120) && (g<=120) && (b>=160))
+		else if ((b>(g+40)) && (b>(r+40)))
 			actualizar_subestado(azul, x, y);
 
 
