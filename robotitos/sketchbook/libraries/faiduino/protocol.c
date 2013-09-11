@@ -1,3 +1,16 @@
+/*
+ * Implementacion del protocolo de Myro (http://myro.roboteducation.org/)
+ * para un robotito basado en un arduino, dos motores legos, y un puente H L293D
+ *
+ * Copyright (c) 2012-2013 Rodolfo Del Castillo
+ * Copyright (c) 2012-2013 Rafael Zurita
+ *
+ * The files in this package are distributed under the terms of the GNU
+ * General Public License (GPL), version 2. This license is included in
+ * the file COPYING.GPLv2.
+ * 
+ */
+
 
 #include "motorcitos.h";
 #include "protocol.h";

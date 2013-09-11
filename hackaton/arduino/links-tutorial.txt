@@ -1,4 +1,10 @@
 
 http://arduino.cc/es/Tutorial/Foundations
 
+PWM http://arduino.cc/es/Tutorial/PWM
+
+Ampliando y Desarrollando Arduino http://arduino.cc/es/Hacking/HomePage
+
+
+
 

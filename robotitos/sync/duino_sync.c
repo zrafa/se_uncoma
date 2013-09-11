@@ -1,5 +1,17 @@
 /* Simple Ejemplo que sincroniza con el robot de la FAI */
 
+/*
+ *
+ * Copyright (c) 2012-2013 Rodolfo Del Castillo
+ * Copyright (c) 2012-2013 Rafael Zurita
+ *
+ * The files in this package are distributed under the terms of the GNU
+ * General Public License (GPL), version 2. This license is included in
+ * the file COPYING.GPLv2.
+ * 
+ */
+
+
 /* 
  * Sincronizar es "conversar" con el robot (con el atmega8), para que
  * el robot se posicione a la espera de un nuevo paquete con instrucciones 
