@@ -54,7 +54,7 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y)
  * subindice 0-5 : estado (x, y, porcentaje, totx, toty, count)
  */
 int objetos[5][6]; 
-int rgb[5][3]; 
+Uint8 rgb[5][3]; 
 
 void reset_vars(void) {
 	int i,j;
@@ -110,10 +110,12 @@ int calibrado(Uint8 c) {
 
 int es_color(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 
-	if ( (( (r-30) > rgb[c][rojo] ) && ( rgb[c][rojo] < (r+30))) && 
-	(( (g-30) > rgb[c][verde] ) && ( rgb[c][verde] < (g+30))) && 
-	(( (b-30) > rgb[c][azul] ) && ( rgb[c][azul] < (b+30))) )
+	if ( (( (r-30) < rgb[c][rojo] ) && ( rgb[c][rojo] < (r+30))) && 
+	(( (g-30) < rgb[c][verde] ) && ( rgb[c][verde] < (g+30))) && 
+	(( (b-30) < rgb[c][azul] ) && ( rgb[c][azul] < (b+30))) ) {
+		// printf("ES COLOR r=%u, g=%u, b=%u rgr=%u, rgb=%u, rgg=%u .\n", r, g, b, rgb[c][rojo], rgb[c][verde], rgb[c][azul]);
 		return 1;
+	}
 
 	return 0;
 }
