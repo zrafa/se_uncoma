@@ -150,7 +150,7 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	SDL_FreeSurface(surf);
 }
 
-void calibrar_color(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
+void calibrar(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 	rgb[c][rojo] = r;
 	rgb[c][verde] = g;
 	rgb[c][azul] = b;
@@ -160,7 +160,7 @@ void calibrar_color(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 void rgb_init(void) {
 	int i;
 	for (i=rojo;i<negro;i++)
-		calibrar_color(i, 0, 0, 0) 
+		calibrar(i, 0, 0, 0) 
 }
 
 int calibrado(Uint8 c) {
@@ -181,7 +181,8 @@ int es_color(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 	return 0;
 }
 
-void detectar_color(int x1, int y1, int x2, int y2) {
+void calibrar_color(Uint8 c) {
+	int x1=0; int y1=0; int x2=160; int y2=120
 	
 	Uint8 r, g, b;
 	int rp, gp, bp;	/* promedios */
@@ -228,7 +229,11 @@ void detectar_color(int x1, int y1, int x2, int y2) {
 	rp = rp / ((x2-x1)*(y2-y1));
 	gp = gp / ((x2-x1)*(y2-y1));
 	bp = bp / ((x2-x1)*(y2-y1));
+
 	printf("r=%i, g=%i, b=%i.\n", rp, gp, bp);
+
+	calibrar(c, rp, gp, bp);
+
 }
 
 void detectar_objetos(int x1, int y1, int x2, int y2) {
@@ -329,6 +334,8 @@ void faivision_init(enum lenguaje l, const char *ip) {
 
 	robot_ip = strdup(ip);
 	/* FIXME : deberiamos ver que sucede si strdup() falla */
+
+	rgb_init();
     
 }
 

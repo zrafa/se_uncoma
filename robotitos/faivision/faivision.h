@@ -14,3 +14,5 @@ void faivision_init(enum lenguaje l, const char *ip);
 int objeto_x(int c);
 int objeto_y(int c);
 int objeto_porc(int c);
+
+void calibrar_color(Uint8 c);
