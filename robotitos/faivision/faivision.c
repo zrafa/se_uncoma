@@ -86,70 +86,6 @@ void actualizar_estado(int x1, int y1, int x2, int y2) {
 	}
 }
 
-void detectar_objetos(int x1, int y1, int x2, int y2) {
-	
-	Uint8 r, g, b;
-	Uint32 pixel;
-
-	int x, y;
-	char url[80];
-
-	reset_vars();
-
-	sprintf(url,"http://%s:8080/?action=snapshot", robot_ip);
-	/* comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg"); */
-	comm_get_http_file(url, "archivo.jpg");
-
-	SDL_Surface* surf;
-	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
-	 * conflictos con myro-cpp :-(
-         * ALGUIEN QUE ENCUENTRE UNA SOLUCION
-	 */
-	if (leng == C) {
-		system("convert archivo.jpg archivo.bmp");
-		surf = SDL_LoadBMP("archivo.bmp");
-	} else
-		surf = IMG_Load("archivo.jpg");
-
-	if (surf == NULL) {
-		printf("Oh My Goodness, an error : %s", IMG_GetError());
-		exit(1);
-	}
-
-	for (x=x1; x<x2; x=x+2)
-	for (y=y1; y<y2; y=y+2) {
-		
-		pixel = getpixel(surf, x, y);
-		SDL_GetRGB(pixel, surf->format, &r, &g, &b);
-
-		/* negro */
-		if ((r<=60) && (g<=60) && (b<=60))
-			actualizar_subestado(negro, x, y);
-
-		/* blanco */
-		else if ((r>=120) && (g>=120) && (b>=120))
-			actualizar_subestado(blanco, x, y);
-
-		/* rojo */
-		else if ((r>(g+40)) && (r>(b+40)))
-			actualizar_subestado(rojo, x, y);
-
-		/* verde */
-		else if ((g>(r+40)) && (g>(b+40)))
-			actualizar_subestado(verde, x, y);
-
-		/* azul */
-		else if ((b>(g+40)) && (b>(r+40)))
-			actualizar_subestado(azul, x, y);
-
-
-	}
-
-	actualizar_estado(x1, y1, x2, y2);
-
-	SDL_FreeSurface(surf);
-}
-
 void calibrar(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 	rgb[c][rojo] = r;
 	rgb[c][verde] = g;
@@ -160,29 +96,30 @@ void calibrar(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 void rgb_init(void) {
 	int i;
 	for (i=rojo;i<negro;i++)
-		calibrar(i, 0, 0, 0) 
+		calibrar(i, 0, 0, 0);
 }
 
 int calibrado(Uint8 c) {
 
 	/* suponemos que si son todos iguales a cero no esta calibrado */
-	if (rgb[c][rojo] == 0) && (rgb[c][verde] == 0) && (rgb[c][azul] == 0)
+	if ((rgb[c][rojo] == 0) && (rgb[c][verde] == 0) && (rgb[c][azul] == 0))
 		return 0;
 
-	return 1
+	return 1;
 }
+
 int es_color(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 
-	if (( (r-30) > rgb[c][rojo] ) && ( rgb[c][rojo] < (r+30))) && 
+	if ( (( (r-30) > rgb[c][rojo] ) && ( rgb[c][rojo] < (r+30))) && 
 	(( (g-30) > rgb[c][verde] ) && ( rgb[c][verde] < (g+30))) && 
-	(( (b-30) > rgb[c][azul] ) && ( rgb[c][azul] < (b+30)))
+	(( (b-30) > rgb[c][azul] ) && ( rgb[c][azul] < (b+30))) )
 		return 1;
 
 	return 0;
 }
 
 void calibrar_color(Uint8 c) {
-	int x1=0; int y1=0; int x2=160; int y2=120
+	int x1=0; int y1=0; int x2=160; int y2=120;
 	
 	Uint8 r, g, b;
 	int rp, gp, bp;	/* promedios */
@@ -273,31 +210,31 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 		SDL_GetRGB(pixel, surf->format, &r, &g, &b);
 
 		/* negro */
-		if calibrado(negro) && es_color(negro, r, g, b)
+		if ( calibrado(negro) && es_color(negro, r, g, b) )
 			actualizar_subestado(negro, x, y);
 		else if ((r<=60) && (g<=60) && (b<=60))
 			actualizar_subestado(negro, x, y);
 
 		/* blanco */
-		if calibrado(blanco) && es_color(blanco, r, g, b)
+		if ( calibrado(blanco) && es_color(blanco, r, g, b) )
 			actualizar_subestado(blanco, x, y);
 		else if ((r>=150) && (g>=150) && (b>=150))
 			actualizar_subestado(blanco, x, y);
 
 		/* rojo */
-		if calibrado(rojo) && es_color(rojo, r, g, b)
+		if ( calibrado(rojo) && es_color(rojo, r, g, b) )
 			actualizar_subestado(rojo, x, y);
 		else if ((r>(g+40)) && (r>(b+40)))
 			actualizar_subestado(rojo, x, y);
 
 		/* verde */
-		if calibrado(verde) && es_color(verde, r, g, b)
+		if ( calibrado(verde) && es_color(verde, r, g, b) )
 			actualizar_subestado(verde, x, y);
 		else if ((g>(r+40)) && (g>(b+40)))
 			actualizar_subestado(verde, x, y);
 
 		/* azul */
-		if calibrado(azul) && es_color(azul, r, g, b)
+		if ( calibrado(azul) && es_color(azul, r, g, b) )
 			actualizar_subestado(azul, x, y);
 		else if ((b>(g+40)) && (b>(r+40)))
 			actualizar_subestado(azul, x, y);
@@ -308,14 +245,6 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 
 	SDL_FreeSurface(surf);
 }
-
-void detectar_objetos(int x1, int y1, int x2, int y2) {
-	
-	Uint8 r, g, b;
-	Uint32 pixel;
-
-	int x, y;
-	char url[80];
 
 void faivision_init(enum lenguaje l, const char *ip) {
 
