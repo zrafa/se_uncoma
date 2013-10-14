@@ -1,36 +1,41 @@
 from robofai1 import *
-import random
 
-
-
-iz=0
 
 def buscar(color):
 
-	c=0
-	while(c<40):
+	c = 0
+	while (c < 40):
 
 		detectar_objetos()
 		x = buscarcolor(color)
-		c=cuantocolor(color)
+		c = cuantocolor(color)
 		print x
 		print c
+		
+		# Si todavia no lo ve'
 		if c == 0 :
-			derecha(.3, .1)
-		elif x == 0 :
-			derecha(.3, .1)
+			izquierda(.3, .1)
+
+		# Si lo ve pero esta a la izq
 		elif x < 40 :
 			izquierda(.3, .1)
+
+		# Si lo ve pero esta a la der
 		elif x > 120 :
 			derecha(.3, .1)
+
+		# Si lo tiene en frente
 		else :
 			adelante(.3, .1)
 
-		iz = 0
-		wait(2)
+		# Esperamos dos segundos para que el robot obtenga
+		# la foto correcta de lo que actualmente ve.
+		esperar(2)
 
-#Izquierda(0.5,0.5)
+# Encontro' el color, festejamos :
 	beep(2)	
 	luz_izq_on ()
-	wait(3)
+	derecha(.6, 1)
+	esperar(2)
 	luz_izq_off ()
+	izquierda(.6, 1)

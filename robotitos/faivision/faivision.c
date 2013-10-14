@@ -102,7 +102,7 @@ void calibrar(Uint8 c, Uint8 r, Uint8 g, Uint8 b) {
 
 void rgb_init(void) {
 	int i;
-	for (i=rojo;i<negro;i++)
+	for (i=rojo;i<=negro;i++)
 		calibrar(i, 0, 0, 0);
 }
 
@@ -257,15 +257,14 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 
 void faivision_init(enum lenguaje l, const char *ip) {
 
-    /* Initialize the SDL library */
-    if( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
-        fprintf(stderr,
-                "Couldn't initialize SDL: %s\n", SDL_GetError());
-        exit(1);
-    }
+	/* Initialize the SDL library */
+	if( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
+		fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
+		exit(1);
+	}
 
-    /* Clean up on exit */
-    atexit(SDL_Quit);
+	/* Clean up on exit */
+	atexit(SDL_Quit);
 	signal(SIGINT, SIG_DFL);
 
 	leng = l;
