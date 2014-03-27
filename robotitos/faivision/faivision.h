@@ -1,5 +1,6 @@
 /*
  * faivision : Minima biblioteca de vision para el robot de la fai 
+ *
  * Written 2011-2013 by Rafael Ignacio Zurita y Rodolfo del Castillo
  *
  * This package is free software; you can redistribute it and/or modify
