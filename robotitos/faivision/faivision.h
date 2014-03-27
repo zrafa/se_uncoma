@@ -19,8 +19,9 @@ void detectar_objetos(int x1, int y1, int x2, int y2);
 
 void faivision_init(enum lenguaje l, const char *ip);
 
-int objeto_x(int c);
-int objeto_y(int c);
-int objeto_porc(int c);
+int objeto_x(int c);		/* consultar posicion X del color c */
+int objeto_y(int c);		/* consultar posicion Y del color c */
+int objeto_porc(int c);		/* consultar porcentaje del color c */
 
+/* Obsoleto */
 void calibrar_color(Uint8 c);
