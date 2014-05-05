@@ -1,1 +1,0 @@
-/usr/bin/c++    -g -Wall    CMakeFiles/myro_polygon_test.dir/polygon_test.cpp.o  -o myro_polygon_test -rdynamic ../../src/libmyro-cpp.so.2.3.0 ../../src/libmyro-cpp.so.2.3.0 -lboost_thread-mt -lSM -lICE -lX11 -lXext ../../jpeg/libmyrocpp_jpeg.a -Wl,-rpath,/home/rafa/Downloads/myro-cpp-2.3.0/build/src 
