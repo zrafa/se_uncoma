@@ -1,0 +1,1 @@
+/usr/bin/c++    -g -Wall    CMakeFiles/myro_test_camera.dir/test_camera.cpp.o  -o myro_test_camera -rdynamic ../src/libmyro-cpp.so.2.3.0 -lboost_thread-mt -lSM -lICE -lX11 -lXext ../jpeg/libmyrocpp_jpeg.a -Wl,-rpath,/home/rafa/Downloads/myro-cpp-2.3.0/build/src: 
