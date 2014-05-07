@@ -1,6 +1,6 @@
 SHELL = /bin/sh
 
-CFLAGS = -Wall -O2
+CFLAGS = -Wall -O2 -fPIC
 LIBFLAGS = -lSDL -lSDL_image -lcurl 
 INSTALL_DIR = /usr/local/lib
 
