@@ -1,8 +1,8 @@
 Problemas que pueden suceder al utilizar el robot (y soluciones)
 ----------------------------------------------------------------
 
-Primero se debe utilizar el robot normalmente, para observar
-síntomas o anomalías en su funcionamiento.
+Primero se debe utilizar el robot normalmente para observar
+qué anomalías existen en su funcionamiento.
 Si no se observan anomalías y se puede controlar el robot
 desde Myro entonces no hay nada que solucionar.
 
