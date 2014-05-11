@@ -29,7 +29,8 @@ seleccionar el correcto para el robot. Por ejemplo, para el robot "Eva" (número
 2, IP : 10.0.20.202), hay que ejecutar from robofai2 import * 
 Mejora futura : robofai.py debería ser una unica biblioteca, y en el init() 
 se podría indicar con un argumento el robot; si es el robot 1, el 2, o el que
-sea (o por nombre "frankestito", "eva", etc).
+sea (o por nombre "frankestito", "eva", etc) podría ser util llamar simplemente
+a init("Eva").
 
 Eso evitaría algunos errores, y sería mas fácil de recordar y usar.
 
