@@ -11,17 +11,6 @@ NEGRO=4
 
 PYTHON=0
 
-def nmOff():
-	subprocess.call(["/etc/init.d/network-manager", "stop"])
-
-def nmOn():
-	subprocess.call(["/etc/init.d/network-manager", "start"])
-
-def netOn():
-	# subprocess.call(["/sbin/iwconfig", "wlan0","essid","robotsfai"])
-	# subprocess.call(["/sbin/ifconfig", "wlan0","10.0.20.5"])
-	subprocess.call(["/sbin/ifconfig", "br0:1","10.0.20.5"])
-	#subprocess.call(["/bin/ping", "-c 4", "192.168.2.100"])
 
 def lsterms():
 	return subprocess.Popen(["ls", "/dev/pts"], stdout=subprocess.PIPE).communicate()[0]
@@ -50,8 +39,6 @@ def flashing(pts):
 
 
 def init():
-#	nmOff()
-#	netOn()
 	killallSocat()
 
 	# sincronizamos y esperamos
@@ -79,10 +66,3 @@ def init():
 	flashing(socat_term);
 
 
-# init()
-# robot.setLED("left", "on")
-
-# end
-# wait(5)
-# robot.setLED("left", "off")
-# killallSocat()

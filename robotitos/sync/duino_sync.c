@@ -14,7 +14,8 @@
 
 /* 
  * Sincronizar es "conversar" con el robot (con el atmega8), para que
- * el robot se posicione a la espera de un nuevo paquete con instrucciones 
+ * el robot se posicione a la espera del primer byte de un nuevo paquete con
+ * instrucciones.
  */
 
 /* 
@@ -69,7 +70,7 @@ int main (int argc, char *argv[]) {
 		exit(1);
 	}
 
-	printf("Cliente iniciado : %i. Esperamos 8 segundos\n", sockfd);
+	printf("Cliente conectado : %i. Esperamos un momento ...\n", sockfd);
 
 		usleep(51400);
 	/*  Leemos y escribimos al servidor 2 net */
@@ -88,42 +89,41 @@ int main (int argc, char *argv[]) {
 	for (i=0;i<2;i++)	/* queremos ejecutar el siguiente while dos
 				 * veces para estar seguros que sincronizamos pidiendo el nombre
 				 */
+	printf("Enviando y recibiendo : ");
 	while (1) {
 
 		usleep(51400);
-			printf("Tratamos de escribir. \n");
+		printf(".s.");	 /* Intentando escribir (send) */
 
 		res = write(sockfd, &getname[0], 1);
 		if (res == -1) {
-			printf("Problema al escribir. Salgo..\n");
+			printf("Problema al escribir. Finalizando la ejecucion ...\n");
 			ok = 1;
 			break;
 		}
 		usleep(51400);
 
-			printf("Tratamos de leer 1. \n");
+		printf(".r.");	/* Intentando leer (receive) */
 		res = read(sockfd, &echo[0], 1);
 		if (res == -1)
-			printf("Todavia NO recibimos el byte\n");
+			printf(".-.");	/* Todavia NO recibimos el byte */
 		else {
-			printf("Recibi 1\n");
+			printf(".R.");	/* Hemos recibido un byte */
 
 			res = read(sockfd, &echo[1], 8);
 			if (res == 8) {
-				printf("Recibi los 8 que faltaban.. saliendo\n");
-				printf ("Respuesta : %s\n", &echo[0]);
-				printf("Nos las jugamos a leer 8 mas \n");
+				printf(".RRRRRRRR.");	/* Recibimos los 8 que faltaban.. saliendo */
+				printf (". Respuesta : %s .", &echo[0]);
+				printf(".rrrrrrrr.");	/* Nos las jugamos a leer 8 mas */
 				res = read(sockfd, &respuesta[0], 8);
 
-				printf ("Respuesta : %s\n", &respuesta[0]);
-
+				printf ("\nRespuesta : %s\n", &respuesta[0]);
 				ok = 0;
-				break;
 			} else {
-				printf("No recibimos los 8 que faltaban. Recibimos: %i. Saliendo..\n", res);
+				printf("\nNo recibimos los 8 que faltaban. Recibimos: %i. Saliendo..\n", res);
 				ok = 1;
-				break;
 			}
+			break;
 		}
 	}
 
