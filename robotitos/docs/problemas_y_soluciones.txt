@@ -1,0 +1,104 @@
+Problemas que pueden suceder al utilizar el robot (y soluciones)
+----------------------------------------------------------------
+
+Primero se debe utilizar el robot normalmente, para observar
+síntomas o anomalías en su funcionamiento.
+Si no se observan anomalías y se puede controlar el robot
+desde Myro entonces no hay nada que solucionar.
+
+Utilización del robot desde Myro. Ingresar a Python y ejecutar :
+
+from robofai1 import *
+init()
+beep()
+
+Si se conecta y todo va bien el robot hará un "beeep" por su
+mini parlantito.
+
+
+Síntomas y Problemas conocidos
+------------------------------
+
+
+1- Problema con la biblioteca de Python.
+
+Puede suceder al importar los métodos equivocados del robofaiNRO.py incorrecto.
+
+Workaround o solución : Cada robot tiene su propio robofaiNRO.py. Hay que
+seleccionar el correcto para el robot. Por ejemplo, para el robot "Eva" (número
+2, IP : 10.0.20.202), hay que ejecutar from robofai2 import * 
+Mejora futura : robofai.py debería ser una unica biblioteca, y en el init() 
+se podría indicar con un argumento el robot; si es el robot 1, el 2, o el que
+sea (o por nombre "frankestito", "eva", etc).
+
+Eso evitaría algunos errores, y sería mas fácil de recordar y usar.
+
+
+2- Problema con la versión de Python.
+
+Puede suceder al importar métodos implementados para una versión diferente de
+Python.
+Este problema lo podemos detectar porque el init() emite errores de IO,
+producidos cuando quiere ejecutar socat con un método que se llama diferente en
+Python.
+
+Workaround o solución : Verificar que utilizamos el robofaiNRO.py
+preparado para la versión de Python que esté instalado en la PC/netbook. Si la
+PC/netbook tiene los diferentes intérpretes de Python instalado también podemos
+simplemente ingresar a la versión de Python correcta. Ejecutando python2.6, o
+python2.7, o python3.0, por ejemplo.
+
+
+3- Problema para sincronizar con el robot.
+
+Este problema lo podemos detectar al observar que el comando duino_sync,
+ejecutado por init() en Python no finaliza nunca, emitiendo mensajes en
+pantalla constantemente (el cual indica que trata de enviar mensajes al robot
+pero el robot no responde).
+
+Workaround o solución:
+
+ a- Lo primero que hay que hacer es asegurarse que la PC o netbook esté
+  conectada a la red wireless de los robots.
+  Para esta verificacion podemos ejecutar el comando iwconfig y observar 
+  que el ESSID de la conexión es "robotsfai", y que tiene un access point
+  asociado.
+
+ b- Lo segundo es verificar si la interfaz de red recibió o tiene una dirección
+  de red acorde.
+  La red de los robots es 10.0.20.0/24. Se puede verificar con el comando
+  ifconfig. Si no tiene una direccion acorde hay que configurar correctamente la
+  conexión.
+  
+ c- Verificar si hay conexión con el Linux del robot.
+  Lo más cómodo es ejecutar ping a la IP del robot. Por ejemplo, para el robot 2
+  "Eva" ejecutar : ping 10.0.20.202
+  Si el ping obtiene respuesta significa que el sistema Linux en el robot está
+  funcional, al menos en lo que respecta a red.
+  
+ d- Verificar que la conexión serial del sistema Linux del robot está configurada
+  correctamente y funciona. 
+  Es necesario verificar que ser2net está en ejecución en el Linux del robot. 
+  Y que el mismo tenga una velocidad de 9600 bits/seg. Si la configuracion
+  indica 19200 bits/seg (la configuracion se encuentra en /etc/ser2net.conf)
+  entonces se debe configurar correctamente ser2net. Los pasos son : finalizar
+  ser2net (killall ser2net), cambiar la configuación en /etc/ser2net.conf y
+  volver a iniciar ser2net.
+  
+ e- Verificar que la placa easyduino está en funcionamiento.
+  Es necesario reiniciar la placa con el botoncito de reset, y verificar que el
+  led se enciende y se apaga 10 veces en 10 segundos y luego realiza un "atras"
+  y un "adelante" con las ruedas. Ese es el feedback inicial que indica que el
+  software de la placa easyduino está en funcionamiento.
+  
+Si los pasos a) a e) no presentan problemas pero aún el duino_sync no puede
+sincronizar con el robot entonces una posible causa común es que el
+firmware de la placa easyduino esté modificado incorrectamente (por tal vez,
+una falla en la energía o similar). Un workaround a este problema
+es simplemente hacer un "reflash" del firmware de la placa easyduino
+para asegurarnos de que el firmware en esta placa es "correcto".
+  
+Para realizar un reflash seguir los pasos de "flashing". 
+  
+ f- Verificar la carga de las baterías. La carga de las
+  baterías tiene que ser 9V mínimo. 12V es ideal.
