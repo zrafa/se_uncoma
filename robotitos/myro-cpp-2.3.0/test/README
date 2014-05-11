@@ -1,0 +1,16 @@
+This directory contains files that use the Myro-Cpp library
+
+These programs serve two purposes:
+  1.) To test functionality of the Myro-Cpp library
+  2.) To serve as example code on how to accomplish certain tasks using
+        the myro-cpp library.
+
+
+All of these programs should be installed as part of the Myro-Cpp library, 
+    with the prefix of myro_.
+
+So, test_camera.cpp should be compiled and installed as myro_test_camera, 
+    likewise for all the other files here.
+
+Also included is a Makefile that could be used to compile these programs 
+    (however, without the myro_ prefix stated before).

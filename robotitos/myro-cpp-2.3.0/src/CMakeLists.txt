@@ -1,0 +1,31 @@
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/headers)
+
+LINK_LIBRARIES(${Boost_THREAD_LIBRARY})
+
+GET_DIRECTORY_PROPERTY(myrocpp_jpeg_SRCS DIRECTORY ${PROJECT_SOURCE_DIR}/jpeg DEFINITION myrocpp_jpeg_SRCS)
+
+ADD_LIBRARY(myro-cpp SHARED Myro.cpp MyroInternals.cpp Scribbler.cpp serial.cpp Robot.cpp Picture.cpp VideoStream.cpp Filter.cpp Graphics.cpp xcolors.cpp jmemsrc.c)
+
+TARGET_LINK_LIBRARIES(myro-cpp ${GUI_LIBRARIES} ${PROJECT_BINARY_DIR}/jpeg/libmyrocpp_jpeg.a)
+
+IF(WIN32) 
+    MESSAGE(STATUS "Hello Windows User!")
+    #INSTALL(TARGETS myro-cpp DESTINATION "lib" )
+    INSTALL(TARGETS myro-cpp ARCHIVE DESTINATION "lib" LIBRARY DESTINATION "bin" RUNTIME DESTINATION "bin")
+ELSE(WIN32)
+    SET_TARGET_PROPERTIES(myro-cpp PROPERTIES VERSION "${MYRO_PKG_VER_MAJOR}.${MYRO_PKG_VER_MINOR}.${MYRO_PKG_VER_PATCH}" SOVERSION "${MYRO_PKG_VER_MAJOR}.${MYRO_PKG_VER_MINOR}")
+    INSTALL(TARGETS myro-cpp LIBRARY DESTINATION "lib" )
+ENDIF(WIN32)
+#INSTALL(TARGETS myro-cpp DESTINATION "lib" )
+
+# Set up a pkg-config file 
+CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/cmake/pkgconfig.cmake ${CMAKE_CURRENT_BINARY_DIR}/myro-cpp.pc @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/myro-cpp.pc 
+        DESTINATION "lib/pkgconfig"
+        COMPONENT pkgconfig)
+
+CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/cmake/myro-cpp-config.cmake ${CMAKE_CURRENT_BINARY_DIR}/myro-cpp-config @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/myro-cpp-config
+        DESTINATION "bin"
+        COMPONENT myro-cpp-config
+        PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)

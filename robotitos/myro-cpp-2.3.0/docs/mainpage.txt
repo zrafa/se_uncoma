@@ -1,0 +1,12 @@
+/** @mainpage Main Page
+ *
+ * @section intro Introduction
+ *
+ * This is the On-Line API documentation for Myro-C++
+ *
+ * To get started, look at the "modules" tab above, and look for the module for the documentation you're interested in.
+ *
+ * For more general documentation (such as installation instructions, FAQ's etc) please visit http://myro-cpp.sf.net
+ * 
+ *
+ */

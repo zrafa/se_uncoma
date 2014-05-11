@@ -1,0 +1,38 @@
+2.3.0 (2011-08-25)
+ - Added Graphics Drawing Library
+ - Changed it so the connect() functions on the robot can take a string to hard-code into your code the commport of your robot. 
+ - show(Picture) is no longer blocking if a string title is given. 
+ - Fixed Bug where robot.setName() dropped the 9th character. 
+ - Switched from using FLTK to CImg library (included with myro-c++).
+
+2.2.2 (2011-01-28)
+ - Added askQuestion() and askQuestionVector() variant.
+ - Added MyroIO.h which gives convienience operator overloading for vector & list stl objects.
+ - Improved Organization of Doxygen Documentation that is built.
+ - Added getIR(int), getIR(string) to get specific IR direction
+
+2.2.1 (2011-01-27)
+ - Release Recalled due to bug, see version 2.2.2 instead
+
+2.2.0 (2011-01-11)
+ - Removed ImageMagick as a dependency. 
+ - VideoStream window now closes as expected when endStream() is called
+ - Displaying a greyscale image now displays it correctly (before it was pink)
+ - Added clone() method to the Picture objects to create a copy of a picture
+ - Added more error reporting for improper use of the library
+ - Added myro-cpp-config script to get compiling information, which can be used instead of pkg-config (but we do not remove pkg-config support)
+
+2.1.2 (2010-08-23)
+ - Fixed a bug where the VideoStream does not always start when requested
+
+2.1.1 (2010-08-06)
+ - First official (external) release
+ - Adds support for Windows (via cygwin) and OSX
+ - Adds a build-system supporting installation
+ - Fixes bug #589323 VideoStream object causes segfaults on object destruction
+ - Fixes numerous memory leaks
+ - Fixes bug where robot takes picture at startup, sometime causing garbage data to show up.
+
+2.0.0 
+ - First Internal Release 
+ - Supports Ubuntu Linux
