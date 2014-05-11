@@ -46,8 +46,8 @@ Python.
 Workaround o solución : Verificar que utilizamos el robofaiNRO.py
 preparado para la versión de Python que esté instalado en la PC/netbook. Si la
 PC/netbook tiene los diferentes intérpretes de Python instalado también podemos
-simplemente ingresar a la versión de Python correcta. Ejecutando python2.6, o
-python2.7, o python3.0, por ejemplo.
+simplemente ingresar a la versión de Python correcta. Por ejemplo, ejecutando 
+python2.6, python2.7, o python3.0.
 
 
 3- Problema para sincronizar con el robot.
