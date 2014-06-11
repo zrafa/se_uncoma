@@ -19,6 +19,7 @@
 
 #include "comm.h"
 #include "faivision.h"
+#include "detectar_colores.h"
 
 
 enum lenguaje leng;
@@ -196,11 +197,12 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	/* comm_get_http_file("http://10.0.20.201:8080/?action=snapshot", "archivo.jpg"); */
 	comm_get_http_file(url, "archivo.jpg");
 
-	SDL_Surface* surf;
+//	SDL_Surface* surf;
 	/* FIXME : no puedo abrir el archivo jpg con SDLimage por
 	 * conflictos con myro-cpp :-(
          * ALGUIEN QUE ENCUENTRE UNA SOLUCION
 	 */
+/*
 	if (leng == C) {
 		system("convert archivo.jpg archivo.bmp");
 		surf = SDL_LoadBMP("archivo.bmp");
@@ -219,30 +221,35 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 		SDL_GetRGB(pixel, surf->format, &r, &g, &b);
 
 		/* negro */
+/*
 		if ( calibrado(negro) && es_color(negro, r, g, b) )
 			actualizar_subestado(negro, x, y);
 		else if ((r<=60) && (g<=60) && (b<=60))
 			actualizar_subestado(negro, x, y);
 
 		/* blanco */
+/*
 		if ( calibrado(blanco) && es_color(blanco, r, g, b) )
 			actualizar_subestado(blanco, x, y);
 		else if ((r>=150) && (g>=150) && (b>=150))
 			actualizar_subestado(blanco, x, y);
 
 		/* rojo */
+/*
 		if ( calibrado(rojo) && es_color(rojo, r, g, b) )
 			actualizar_subestado(rojo, x, y);
 		else if ((r>(g+40)) && (r>(b+40)))
 			actualizar_subestado(rojo, x, y);
 
 		/* verde */
+/*
 		if ( calibrado(verde) && es_color(verde, r, g, b) )
 			actualizar_subestado(verde, x, y);
 		else if ((g>(r+40)) && (g>(b+40)))
 			actualizar_subestado(verde, x, y);
 
 		/* azul */
+/*
 		if ( calibrado(azul) && es_color(azul, r, g, b) )
 			actualizar_subestado(azul, x, y);
 		else if ((b>(g+40)) && (b>(r+40)))
@@ -253,6 +260,8 @@ void detectar_objetos(int x1, int y1, int x2, int y2) {
 	actualizar_estado(x1, y1, x2, y2);
 
 	SDL_FreeSurface(surf);
+	*/
+	detectar_colores("archivo.jpg", objetos);
 }
 
 void faivision_init(enum lenguaje l, const char *ip) {
