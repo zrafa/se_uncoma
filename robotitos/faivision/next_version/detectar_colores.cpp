@@ -1,4 +1,10 @@
-// Cristóbal Carnero Liñán <grendel.ccl@gmail.com>
+/* 
+ * Detectar colores : de una imagen detecta los colores basicos
+ * 
+ * 2014 Rafael Ignacio Zurita 
+ * Basado completamente en ejemplos de cvblob, autor Cristóbal Carnero Liñán <grendel.ccl@gmail.com>
+ *
+ */
 
 #include <iostream>
 #include <iomanip>
@@ -38,13 +44,13 @@ static int detectar( char *archivo )
   unsigned int blobNumber = 0;
 
   bool quit = false;
-//  while (!quit)
- // {
 
 enum escala_de_colores {rojo, verde, azul, blanco, negro}; 
 
 unsigned char f;
 int color;
+int tamanio = imgSize.height * imgSize.width;
+
 for (color=rojo;color<=negro;color++) {
 
     IplImage *segmentated = cvCreateImage(imgSize, 8, 1);
@@ -117,7 +123,7 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 			printf("COLOR NEGRO ");
 			break;
 	}
-	printf("AREA = %i, x=%i, y=%i \n\n", cuantorojo, rojox, rojoy);
+	printf("PORCENTAJE = %i%, AREA = %i, x=%i, y=%i \n\n", cuantorojo*100/tamanio, cuantorojo, rojox, rojoy);
 	fflush(stdout);
 
     cvShowImage("red_object_tracking", frame);
@@ -128,7 +134,6 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 
 }
 
-  //}
 
   cvReleaseStructuringElement(&morphKernel);
   cvReleaseImage(&frame);

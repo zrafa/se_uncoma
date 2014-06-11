@@ -24,12 +24,15 @@ using namespace std;
 #include <cvblob.h>
 using namespace cvb;
 
+extern "C"{ 
+void detectar_colores( const char *archivo, int objetos[5][6]);
+}
 
 int rojox = 0;
 int rojoy = 0;
 int cuantorojo = 0;
 
-void detectar_colores( char *archivo, int objetos[5][6])
+void detectar_colores( const char *archivo, int objetos[5][6])
 
 {
   CvTracks tracks;

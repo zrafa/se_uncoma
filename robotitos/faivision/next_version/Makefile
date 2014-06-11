@@ -1,6 +1,6 @@
 all:
-	g++ `pkg-config opencv cvblob --cflags --libs` red_object_tracking.cpp -o blue_object_tracking
+	g++ `pkg-config opencv cvblob --cflags --libs` detectar_colores.cpp -o detectar_colores
 
 clean:
-	rm blue_object_tracking
+	rm detectar_colores
 	
