@@ -14,8 +14,10 @@
 #include <iostream>
 using namespace std;
 
+
 #include <cvblob.h>
 using namespace cvb;
+
 
 int rojox = 0;
 int rojoy = 0;
@@ -39,6 +41,12 @@ static int detectar( char *archivo )
 //  while (!quit)
  // {
 
+enum escala_de_colores {rojo, verde, azul, blanco, negro}; 
+
+unsigned char f;
+int color;
+for (color=rojo;color<=negro;color++) {
+
     IplImage *segmentated = cvCreateImage(imgSize, 8, 1);
     
     for (unsigned int j=0; j<imgSize.height; j++)
@@ -49,7 +57,23 @@ static int detectar( char *archivo )
 	double b = ((double)c.val[0])/255.;
 	double g = ((double)c.val[1])/255.;
 	double r = ((double)c.val[2])/255.;
-	unsigned char f = 255*((r>0.2+g)&&(r>0.2+b));
+	switch(color) {
+		case (rojo):
+			f = 255*((r>0.2+g)&&(r>0.2+b));
+			break;
+		case (azul):
+			f = 255*((b>0.2+g)&&(b>0.2+r));
+			break;
+		case (verde):
+			f = 255*((g>0.2+b)&&(g>0.2+r));
+			break;
+		case (blanco):
+			f = 255*((r>0.9)&&(g>0.9)&&(b>0.9));
+			break;
+		case (negro):
+			f = 255*((r<0.2)&&(g<0.2)&&(b<0.2));
+			break;
+	}
 
 	cvSet2D(segmentated, j, i, CV_RGB(f, f, f));
       }
@@ -63,6 +87,9 @@ static int detectar( char *archivo )
     cvFilterByArea(blobs, 500, 1000000);
     cvRenderBlobs(labelImg, blobs, frame, frame, CV_BLOB_RENDER_BOUNDING_BOX);
 
+	cuantorojo=0;
+	rojox=0;
+	rojoy=0;
 /* Nos informa donde esta el centro */
 for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 {
@@ -73,15 +100,33 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 		rojoy = it->second->centroid.y;
 	}
 };
-	printf("ROJO AREA = %i, x=%i, y=%i \n", cuantorojo, rojox, rojoy);
+	switch(color) {
+		case (rojo):
+			printf("COLOR ROJO ");
+			break;
+		case (azul):
+			printf("COLOR AZUL ");
+			break;
+		case (verde):
+			printf("COLOR VERDE ");
+			break;
+		case (blanco):
+			printf("COLOR BLANCO ");
+			break;
+		case (negro):
+			printf("COLOR NEGRO ");
+			break;
+	}
+	printf("AREA = %i, x=%i, y=%i \n\n", cuantorojo, rojox, rojoy);
 	fflush(stdout);
 
     cvShowImage("red_object_tracking", frame);
 
     cvReleaseImage(&labelImg);
     cvReleaseImage(&segmentated);
-
     cvReleaseBlobs(blobs);
+
+}
 
   //}
 
