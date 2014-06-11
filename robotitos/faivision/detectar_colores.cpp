@@ -24,12 +24,15 @@ using namespace std;
 #include <cvblob.h>
 using namespace cvb;
 
+extern "C"{ 
+void detectar_colores( const char *archivo, int objetos[5][6]);
+}
 
 int rojox = 0;
 int rojoy = 0;
 int cuantorojo = 0;
 
-static int detectar( char *archivo )
+void detectar_colores( const char *archivo, int objetos[5][6])
 
 {
   CvTracks tracks;
@@ -46,6 +49,7 @@ static int detectar( char *archivo )
   bool quit = false;
 
 enum escala_de_colores {rojo, verde, azul, blanco, negro}; 
+enum estado {x, y, porc, totx, toty, count};
 
 unsigned char f;
 int color;
@@ -124,6 +128,10 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 			break;
 	}
 	printf("PORCENTAJE = %i%, AREA = %i, x=%i, y=%i \n\n", cuantorojo*100/tamanio, cuantorojo, rojox, rojoy);
+	objetos[color][x] = rojox;
+	objetos[color][y] = rojoy;
+	objetos[color][porc] = cuantorojo*100/tamanio;
+
 	fflush(stdout);
 
     cvShowImage("red_object_tracking", frame);
@@ -141,10 +149,11 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 
   cvDestroyWindow("red_object_tracking");
 
-  return 0;
 }
 
+/*
 int main( int argc, char** argv ) {
 	detectar(argv[1]);
 	return 0;
 }
+*/
