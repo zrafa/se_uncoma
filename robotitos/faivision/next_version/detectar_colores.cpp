@@ -74,7 +74,8 @@ for (color=rojo;color<=negro;color++) {
 			f = 255*((g>0.2+b)&&(g>0.2+r));
 			break;
 		case (blanco):
-			f = 255*((r>0.9)&&(g>0.9)&&(b>0.9));
+			f = 255*((r>0.8)&&(g>0.8)&&(b>0.8));
+			// printf("r=%f, g=%f, b=%f -- ", r, g, b);
 			break;
 		case (negro):
 			f = 255*((r<0.2)&&(g<0.2)&&(b<0.2));
