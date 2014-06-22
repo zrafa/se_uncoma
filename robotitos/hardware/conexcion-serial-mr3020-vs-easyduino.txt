@@ -1,0 +1,11 @@
+
+
+TPLINK mr3020 Serial Pinout
+1	2	3	4
+TX	RX	GND	VCC
+
+
+Easyduino
+
+1	3	4
+GND	RX	TX
