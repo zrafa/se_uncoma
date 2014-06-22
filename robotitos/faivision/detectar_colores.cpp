@@ -1,7 +1,7 @@
 /* 
- * Detectar colores : de una imagen detecta los colores basicos
+ * Detectar colores : detecta objetos con colores basicos desde una imagen
  * 
- * 2014 Rafael Ignacio Zurita 
+ * 2014 - Rafael Ignacio Zurita 
  * Basado completamente en ejemplos de cvblob, autor Cristóbal Carnero Liñán <grendel.ccl@gmail.com>
  *
  */
@@ -20,96 +20,98 @@
 #include <iostream>
 using namespace std;
 
-
 #include <cvblob.h>
 using namespace cvb;
+
+#define DEBUG 0
 
 extern "C"{ 
 void detectar_colores( const char *archivo, int objetos[5][6]);
 }
 
-int rojox = 0;
-int rojoy = 0;
-int cuantorojo = 0;
 
-void detectar_colores( const char *archivo, int objetos[5][6])
+void detectar_colores( const char *archivo, int objetos[5][6]) {
 
-{
-  CvTracks tracks;
+	int xx, yy = 0;
+	int nro_pixels = 0;
 
-  cvNamedWindow("red_object_tracking", CV_WINDOW_AUTOSIZE);
-  IplImage* img = cvLoadImage(archivo);
-  CvSize imgSize = cvGetSize(img);
-  IplImage* frame = cvLoadImage(archivo);
+	CvTracks tracks;
 
-  IplConvKernel* morphKernel = cvCreateStructuringElementEx(5, 5, 1, 1, CV_SHAPE_RECT, NULL);
+	cvNamedWindow("red_object_tracking", CV_WINDOW_AUTOSIZE);
+	IplImage* img = cvLoadImage(archivo);
+	CvSize imgSize = cvGetSize(img);
+	IplImage* frame = cvLoadImage(archivo);
 
-  unsigned int blobNumber = 0;
+	IplConvKernel* morphKernel = cvCreateStructuringElementEx(5, 5, 1, 1, CV_SHAPE_RECT, NULL);
 
-  bool quit = false;
+  	unsigned int blobNumber = 0;
+  	bool quit = false;
 
-enum escala_de_colores {rojo, verde, azul, blanco, negro}; 
-enum estado {x, y, porc, totx, toty, count};
+	enum escala_de_colores {rojo, verde, azul, blanco, negro}; 
+	enum estado {x, y, porc, totx, toty, count};
 
-unsigned char f;
-int color;
-int tamanio = imgSize.height * imgSize.width;
+	unsigned char f;
+	int color;
+	int tamanio = imgSize.height * imgSize.width;
 
-for (color=rojo;color<=negro;color++) {
+	double r, g, b;
 
-    IplImage *segmentated = cvCreateImage(imgSize, 8, 1);
+	for (color=rojo;color<=negro;color++) {
+
+		IplImage *segmentated = cvCreateImage(imgSize, 8, 1);
     
-    for (unsigned int j=0; j<imgSize.height; j++)
-      for (unsigned int i=0; i<imgSize.width; i++)
-      {
-	CvScalar c = cvGet2D(frame, j, i);
+		for (unsigned int j=0; j<imgSize.height; j++)
+		for (unsigned int i=0; i<imgSize.width; i++) {
+			CvScalar c = cvGet2D(frame, j, i);
 
-	double b = ((double)c.val[0])/255.;
-	double g = ((double)c.val[1])/255.;
-	double r = ((double)c.val[2])/255.;
-	switch(color) {
-		case (rojo):
-			f = 255*((r>0.2+g)&&(r>0.2+b));
-			break;
-		case (azul):
-			f = 255*((b>0.2+g)&&(b>0.2+r));
-			break;
-		case (verde):
-			f = 255*((g>0.2+b)&&(g>0.2+r));
-			break;
-		case (blanco):
-			f = 255*((r>0.9)&&(g>0.9)&&(b>0.9));
-			break;
-		case (negro):
-			f = 255*((r<0.2)&&(g<0.2)&&(b<0.2));
-			break;
-	}
+			b = ((double)c.val[0])/255.;
+			g = ((double)c.val[1])/255.;
+			r = ((double)c.val[2])/255.;
 
-	cvSet2D(segmentated, j, i, CV_RGB(f, f, f));
-      }
+			switch(color) {
+			case (rojo):
+				f = 255*((r>0.2+g)&&(r>0.2+b));
+				break;
+			case (azul):
+				f = 255*((b>0.2+g)&&(b>0.2+r));
+				break;
+			case (verde):
+				f = 255*((g>0.2+b)&&(g>0.2+r));
+				break;
+			case (blanco):
+				f = 255*((r>0.7)&&(g>0.7)&&(b>0.7));
+				break;
+			case (negro):
+				f = 255*((r<0.3)&&(g<0.3)&&(b<0.3));
+				break;
+			}
 
-    cvMorphologyEx(segmentated, segmentated, NULL, morphKernel, CV_MOP_OPEN, 1);
+			cvSet2D(segmentated, j, i, CV_RGB(f, f, f));
+		}
 
-    IplImage *labelImg = cvCreateImage(cvGetSize(frame), IPL_DEPTH_LABEL, 1);
+		cvMorphologyEx(segmentated, segmentated, NULL, morphKernel, CV_MOP_OPEN, 1);
 
-    CvBlobs blobs;
-    unsigned int result = cvLabel(segmentated, labelImg, blobs);
-    cvFilterByArea(blobs, 500, 1000000);
-    cvRenderBlobs(labelImg, blobs, frame, frame, CV_BLOB_RENDER_BOUNDING_BOX);
+		IplImage *labelImg = cvCreateImage(cvGetSize(frame), IPL_DEPTH_LABEL, 1);
 
-	cuantorojo=0;
-	rojox=0;
-	rojoy=0;
-/* Nos informa donde esta el centro */
-for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
-{
-//  cout << "Blob #" << it->second->label << ": Area=" << it->second->area << ", Centroid=(" << it->second->centroid.x << ", " << it->second->centroid.y << ")" << endl;
-	if (cuantorojo < it->second->area) {
-		cuantorojo = it->second->area;
-		rojox = it->second->centroid.x;
-		rojoy = it->second->centroid.y;
-	}
-};
+		CvBlobs blobs;
+		unsigned int result = cvLabel(segmentated, labelImg, blobs);
+		cvFilterByArea(blobs, 500, 1000000);
+		cvRenderBlobs(labelImg, blobs, frame, frame, CV_BLOB_RENDER_BOUNDING_BOX);
+
+		nro_pixels=0;
+		xx=0;
+		yy=0;
+
+		/* Nos informa donde esta el centro */
+		for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it) {
+			if (nro_pixels < it->second->area) {
+				nro_pixels = it->second->area;
+				xx = it->second->centroid.x;
+				yy = it->second->centroid.y;
+			}
+		};
+
+#ifdef DEBUG
 	switch(color) {
 		case (rojo):
 			printf("COLOR ROJO ");
@@ -127,33 +129,27 @@ for (CvBlobs::const_iterator it=blobs.begin(); it!=blobs.end(); ++it)
 			printf("COLOR NEGRO ");
 			break;
 	}
-	printf("PORCENTAJE = %i%, AREA = %i, x=%i, y=%i \n\n", cuantorojo*100/tamanio, cuantorojo, rojox, rojoy);
-	objetos[color][x] = rojox;
-	objetos[color][y] = rojoy;
-	objetos[color][porc] = cuantorojo*100/tamanio;
+	printf("PORCENTAJE = %i%, AREA = %i, x=%i, y=%i \n\n", nro_pixels*100/tamanio, nro_pixels, xx, yy);
+#endif
 
-	fflush(stdout);
+		objetos[color][x] = xx;
+		objetos[color][y] = yy;
+		objetos[color][porc] = nro_pixels*100/tamanio;
 
-    cvShowImage("red_object_tracking", frame);
+		fflush(stdout);
 
-    cvReleaseImage(&labelImg);
-    cvReleaseImage(&segmentated);
-    cvReleaseBlobs(blobs);
+		cvReleaseImage(&labelImg);
+		cvReleaseImage(&segmentated);
+		cvReleaseBlobs(blobs);
+
+	}
+
+
+	cvReleaseStructuringElement(&morphKernel);
+	cvReleaseImage(&frame);
+	cvReleaseImage(&img);
+
+	cvDestroyWindow("red_object_tracking");
 
 }
 
-
-  cvReleaseStructuringElement(&morphKernel);
-  cvReleaseImage(&frame);
-  cvReleaseImage(&img);
-
-  cvDestroyWindow("red_object_tracking");
-
-}
-
-/*
-int main( int argc, char** argv ) {
-	detectar(argv[1]);
-	return 0;
-}
-*/
