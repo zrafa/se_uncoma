@@ -93,7 +93,7 @@ int main (int argc, char *argv[]) {
 	while (1) {
 
 		usleep(51400);
-		printf(".s.");	 /* Intentando escribir (send) */
+		printf(".");	 /* Intentando escribir (send) */
 
 		res = write(sockfd, &getname[0], 1);
 		if (res == -1) {
@@ -103,18 +103,18 @@ int main (int argc, char *argv[]) {
 		}
 		usleep(51400);
 
-		printf(".r.");	/* Intentando leer (receive) */
+		printf(".");	/* Intentando leer (receive) */
 		res = read(sockfd, &echo[0], 1);
 		if (res == -1)
-			printf(".-.");	/* Todavia NO recibimos el byte */
+			printf(".");	/* Todavia NO recibimos el byte */
 		else {
-			printf(".R.");	/* Hemos recibido un byte */
+			printf(".");	/* Hemos recibido un byte */
 
 			res = read(sockfd, &echo[1], 8);
 			if (res == 8) {
-				printf(".RRRRRRRR.");	/* Recibimos los 8 que faltaban.. saliendo */
-				printf (". Respuesta : %s .", &echo[0]);
-				printf(".rrrrrrrr.");	/* Nos las jugamos a leer 8 mas */
+				printf(".");	/* Recibimos los 8 que faltaban.. saliendo */
+				printf ("\nRespuesta : %s .", &echo[0]);
+				printf(".");	/* Nos las jugamos a leer 8 mas */
 				res = read(sockfd, &respuesta[0], 8);
 
 				printf ("\nRespuesta : %s\n", &respuesta[0]);
