@@ -10,8 +10,8 @@
  * See the file COPYING.GPL for details.
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+/* #include <SDL/SDL.h> */
+/* #include <SDL/SDL_image.h> */
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -33,7 +33,7 @@ extern void detectar_colores( char *archivo, int objetos[5][6]);
  * subindice 0-5 : estado (x, y, porcentaje, totx, toty, count)
  */
 int objetos[5][6]; 
-Uint8 rgb[5][3]; 
+unsigned char rgb[5][3]; 
 
 void reset_vars(void) {
 	int i,j;

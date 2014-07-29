@@ -25,4 +25,4 @@ int objeto_y(int c);		/* consultar posicion Y del color c */
 int objeto_porc(int c);		/* consultar porcentaje del color c */
 
 /* Obsoleto */
-void calibrar_color(Uint8 c);
+void calibrar_color(unsigned char c);

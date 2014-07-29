@@ -14,6 +14,7 @@ echo " - Bajamos el repositorio git de todo el software"
 git clone https://github.com/zrafa/se_uncoma.git || exit 1
 
 echo " - Instalamos la biblioteca de vision"
+# IMPORTANTE, hay que instalar cvblob, y para cvblob se necesita cmake y libcv-dev
 cd se_uncoma/robotitos/faivision/
 make clean
 make
