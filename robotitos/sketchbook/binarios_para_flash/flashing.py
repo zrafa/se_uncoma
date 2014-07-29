@@ -1,0 +1,65 @@
+#!/usr/bin/python 
+
+import subprocess
+
+vision = ""
+robot = ""
+ROJO=0
+VERDE=1
+AZUL=2
+BLANCO=3
+NEGRO=4
+
+PYTHON=0
+
+
+def lsterms():
+	return subprocess.Popen(["ls", "/dev/pts"], stdout=subprocess.PIPE).communicate()[0]
+
+def spawnSocat():
+	import os
+	from subprocess import Popen
+	# socat_cmd = "socat pty,raw,echo=0 tcp:192.168.2.100:2000"
+	socatBin = "/usr/bin/socat"
+	socatCmd = [socatBin,"pty,raw,echo=0","tcp:10.0.20.202:2000"]
+	p = subprocess.Popen(socatCmd)
+	#wait(2)
+	return p.pid
+
+def killallSocat():
+	subprocess.call(["/usr/bin/killall", "socat"])
+	
+
+
+def synch():
+	return subprocess.Popen(["duino_sync", "10.0.20.202"])
+	
+	
+def flashing(pts):
+	subprocess.call(["avrdude", "-C/etc/avrdude.conf", "-v", "-v", "-v", "-v", "-patmega8", "-carduino", "-P"+pts, "-b19200", "-D", "-Uflash:w:faiduino_test.cpp.hex:i"])
+
+
+#def init():
+killallSocat()
+
+	# print "SYNCH ",synchOutput
+terms_before = lsterms()
+socatPid = spawnSocat()
+	# print "socat pid = ",socatPid
+terms_after = lsterms()
+	# print "TERMS BEFORE ",terms_before
+	# print "TERMS AFTER ",terms_after
+socat_term = ''
+terms_before_w = terms_before.split()
+terms_after_w = terms_after.split()
+for t in terms_after_w:
+	# print  t
+	if not t in terms_before_w:
+		socat_term = "/dev/pts/%d" % (int(t))
+print "SOCAT_TERM ",socat_term
+
+
+
+flashing(socat_term);
+
+
