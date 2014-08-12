@@ -9,12 +9,13 @@ Facultad de Informática, Universidad Nacional del Comahue
 * Copyright 2011-2013 by Rafael Ignacio Zurita y Rodolfo del Castillo
 
 
-Todo el software escrito para el robot (ya sean scripts, biblioteca de visión,
+Todo el software escrito el hardware desarrollado para el robot (ya sean scripts, biblioteca de visión,
 programa para sincronización, modificaciones de Myro en python y C, programas de
-ejemplo, firmware del ATMEGA8) y todo archivo fuente de este proyecto es Software Libre.
+ejemplo, firmware del ATMEGA8, esquematicos, diseños de circuitos) y todo archivo fuente de este proyecto es Software Libre y Hardware Copyleft.
 
-Encontrará una copia de la Licencia en el archivo COPYING.GPL, el cual contiene
-las condiciones bajo las cuales puede utilizar, modificar, y/o redistribuir el software.
+Encontrará una copia de la Licencia en el archivo COPYING.GPL o LICENSE, el cual contiene
+las condiciones bajo las cuales puede utilizar, modificar, y/o redistribuir el software y
+hardware.
 
 
 This package is free software; you can redistribute it and/or modify
