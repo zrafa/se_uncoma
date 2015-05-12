@@ -1,0 +1,245 @@
+Un routercito debe hacer de Access Point.
+	Configurarlo con essid robotsfai, ap, canal automatico, dhcp server,
+	ip 10.0.20.1
+	
+--Instalar el firmware
+======================
+
+a745b368dd2e269d726a769d98d7b4a8  mr3020/openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin
+
+Method Using Web GUI (Recommended)
+----------------------------------
+
+Connect to the TL-MR3020 router via Ethernet cable at IP address 192.168.0.254, log in to the router's web GUI (default login/password: admin / admin) and overwrite the factory firmware by installing the openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin firmware image like a regular firmware update.
+
+Wait for the progress bar to finish twice (the device will reset itself in the process), and proceed with basic configuration as with any fresh OpenWRT install.
+
+Web GUI upload has been confirmed to work with v1.0, v1.4, v1.6, v1.7, v1.8 and 1.9 hardware revisions and requires no serial access unless something goes wrong.
+
+
+
+Manual Method Using Serial Console and TFTP (Experts)
+------------------------------------------------------
+
+To install OpenWrt from the U-Boot console, you need to install a TFTP server on your computer (tftp-hpa is recommended).
+
+Then download OpenWrt factory image to /srv/tftp (for example), and execute the TFTP server by typing tftpd -l -s /srv/tftp.
+
+Connect the TL-MR3020 using a serial console and power up the TL-MR3020.
+
+After a 1-2 seconds it shows Autobooting in 1 seconds, when displaying this enter tpl immediately.
+
+Using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Net:   ag7240_enet_initialize...
+No valid address in Flash. Using fixed address
+No valid address in Flash. Using fixed address
+: cfg1 0x5 cfg2 0x7114
+eth0: 00:03:7f:09:0b:ad
+ag7240_phy_setup
+eth0 up
+: cfg1 0xf cfg2 0x7214
+eth1: 00:03:7f:09:0b:ad
+athrs26_reg_init_lan
+ATHRS26: resetting s26
+ATHRS26: s26 reset done
+ag7240_phy_setup
+eth1 up
+eth0, eth1
+Autobooting in 1 seconds
+[type tpl here]
+You will get a U-Boot-console, it shows as hornet>, and you must enter the following commands:
+
+hornet> setenv ipaddr <device-ip, eg. 192.168.1.111>
+hornet> setenv serverip <server-ip, eg. 192.168.1.100>
+hornet> tftpboot 0x80000000 openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin
+eth1 link down
+dup 1 speed 100
+Using eth0 device
+TFTP from server 192.168.1.100; our IP address is 192.168.1.111
+Filename 'openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin'.
+Load address: 0x80000000
+Loading: #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         ######################################################
+done
+Bytes transferred = 3932160 (3c0000 hex)
+hornet> erase 0x9f020000 +0x3c0000
+
+First 0x2 last 0x3d sector size 0x10000                                                                                                        61
+Erased 60 sectors
+hornet> cp.b 0x80000000 0x9f020000 0x3c0000
+Copy to Flash... write addr: 9f020000
+
+done
+hornet> bootm 9f020000
+
+	*opkg update (actualizar opkg)
+	*vi /etc/opkg.conf
+	*Cambiar línea "http://10.0.15.124/embebidos/mr3020/packages"
+	*opkg update
+
+
+
+
+--Instalar ser2net (opkg install ser2net):
+	*modificar /etc/ser2net.conf*
+	*agregar eliminar BANNERs
+	*2000:raw:0:/dev/ttyATH0: 19200 8DATABITS NONE -XONXOFF -RTSCTS          
+	*comentar #2000:raw:0:/dev/ttyATH0: 9600 8DATABITS NONE -XONXOFF -RTSCTS              
+                   
+
+--Instalar kmod-video-uvc
+	*opkg install kmod-video-uvc_3.7.9-1_ar71xx.ipk
+
+
+--Instalar mjpg-streamer
+	*Agregar paquete para su descarga: wget http://10.0.15.124/embebidos/mr3020/packages/mjpg-streamer_
+r148-3_ar71xx.ipk
+	*opkg update
+	*Instalar opkg: install mjpg-streamer_r148-3_ar71xx.ipk
+
+
+--Cambiar la password de root
+--Habilitar la wifi: esto se logra eliminando de /etc/config/wireless la línea "disable 1"
+	
+--En /etc/config/firewall agregar :
+	config zone           (no lo hicimos)                          
+        option name             wifi            
+        option network          'wifi'                                
+        option input            ACCEPT            
+        option output           ACCEPT            
+        option forward          REJECT    
+
+--En /etc/config/wireless
+	config wifi-iface
+        option device   radio0
+        option network  wifi
+        option mode     sta
+        option ssid     robotsfai //wifai
+        option encryption none
+
+--En /etc/config/network
+	config interface 'wifi'
+        option proto 'dhcp'
+
+
+--Ingresar comando (wifi down)
+
+--Deshabilitar mensajes del kernel: eliminar última línea de /etc/inittab con vi
+
+--Hacer script para streaming:
+	mjpg_streamer -i "input_uvc.so -d /dev/video0 -y -r 160x120 -f 4" -o "output_http.so" -b (guardado como streaming.sh)
+
+--Ingresar en otra terminal ejemplo: cd /home/marcos/Escritorio/linux
+marcos@marcos-N150-N210-N220:~/Escritorio/linux$ ls
+
+
+--Instalación openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin
+--Instalación streaming.sh scp streaming.sh root@192.168.1.1:
+
+
+
+COMANDOS
+*ps : lista los procesos
+*Activar ser2net
+*Averiguar ip de wlan0 mediante ifconfig
+*Probar telnet 192.168.1.1 2000 y dejar en escucha
+*Realizar los mismos paso con otro tplink y realizar ping (ejemplo 192.168.7.103) -- conectar
+
+
+En /etc/init.d se encuentran todos los scripts que se ejecutan
+
+/etc/init.d/firewall stop
+/etc/init.d/firewall disable
+
+--Entrar desde otro equipo por telnet (192.168.7.103, por ejemplo)
+--Entrar mediante ssh root@192.168.7.103 a tplink
+
+
+	Si no ingresa a ssh: 
+		*ingresar /home/rafa/known_hosts
+		*vi /home/usuario/.ssh/known_hosts
+		*eliminar linea de error (ejemplo :42) con comando dd
+
+
+
+
+*socat pty,raw,echo=0 tcp:192.168.1.1:2000   //conecta con el puerto 2000 lan -- genera un dispositivo virtual al que asigna a una ip
+
+
+*ls /dev/pts (devuelve el dispositivo 4)
+
+*sudo avrdude -C/etc/avrdude.conf -v -v -v -v -patmega8 -carduino  -P/dev/pts/4 -n19200 -D -Uflash:w:Blink.cpp.hex:f
+(manda los datos al dispositivo virtual 4, flashea por serial al Arduino) 
+
+ 
+*Por wireless:
+socat pty,raw,echo=0 tcp:192.168.7.103:2000
+
+
+--Motores
+sudo avrdude -C/etc/avrdude.conf -v -v -v -v -patmega8 -carduino  -P/dev/pts/4 -n19200 -D -Uflash:w:faiduino_test.cpp.hex:i
+
+
+d
+#SOLO UNA DE LAS SIGUIENTES LINEAS PUEDEN ESTAR SIN COMENTAR
+#Comentar la siguiente linea para el bootloader
+2000:raw:0:/dev/ttyATH0: 19200 8DATABITS NONE -XONXOFF -RTSCTS          
+#Comentar la siguiente linea para la comunicacion<<
+2000:raw:0:/dev/ttyATH0: 9600 8DATABITS NONE -XONXOFF -RTSCTS              
+
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+*Bajar el consumo de energia de la wireless. ver mail
+*Configurar wireless, a una red. Darle una ip a cada frankestito. 
+*Asignar un routercito como AP
+
+--Tareas realizadas:
+
+se busca, prueban y se compra camara
+se buscan y se compran baterias.
+
+Se arma un pack de las baterias . 1 dia
+Se testea la camara contra el software del robot. 1 dia
+
+Se baja todo el repositorio Openwrte. Porque como cambia (compilan
+cada tanto), cambia la version disponible. Teniendo una unica
+version del software localmente nos aseguramos de tener la misma
+version en todos los robots. 1 dia
+
+Se encuentra un paquete compatible con openwrt de mjpg-streamer. Como
+por algun motivo no estÃ¡ mas ese paquete en openwrt, se buscÃ³ un
+paquete disponible compatible con la version local que bajamos de openwrt.
+1 dia
+
+Se arma un arduino clone para tener para los robots. 5 dias
+
+Se estudia como conectar el serial del arduino con el tplink.
+3 dia (un dispositivo funciona a 3.3v y el otro a 5v)
+
+Se busca y guarda una version de arduino compatible. Se encuentra
+el easyduino que trae todos los fuentes y esquematicos. 3 dias
+
+Se solicita al Oso el software de ayuda empleado en chos malal para
+los robots. Se bajan esos archivos y se estudian para incorporarlos
+al proyecto.
+
+
+Se arman bases chasis para los robots. 5 dias
+
