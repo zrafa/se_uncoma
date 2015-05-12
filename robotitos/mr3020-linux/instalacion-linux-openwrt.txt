@@ -21,6 +21,18 @@ Web GUI upload has been confirmed to work with v1.0, v1.4, v1.6, v1.7, v1.8 and 
 Manual Method Using Serial Console and TFTP (Experts)
 ------------------------------------------------------
 
+Serial:
+TPLINK mr3020 Serial Pinout
+1	2	3	4
+TX	RX	GND	VCC
+
+Bits per second: 115200
+Data bits: 8
+Stop bits: 1
+Parity: None
+Flow control: None
+
+
 To install OpenWrt from the U-Boot console, you need to install a TFTP server on your computer (tftp-hpa is recommended).
 
 Then download OpenWrt factory image to /srv/tftp (for example), and execute the TFTP server by typing tftpd -l -s /srv/tftp.
@@ -242,4 +254,7 @@ al proyecto.
 
 
 Se arman bases chasis para los robots. 5 dias
+
+
+
 
