@@ -98,6 +98,9 @@ Copy to Flash... write addr: 9f020000
 done
 hornet> bootm 9f020000
 
+
+Configurar repositorio de paquetes
+----------------------------------
 	*opkg update (actualizar opkg)
 	*vi /etc/opkg.conf
 	*Cambiar línea "http://10.0.15.124/embebidos/mr3020/packages"
