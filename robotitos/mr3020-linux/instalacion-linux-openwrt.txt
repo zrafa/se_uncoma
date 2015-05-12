@@ -99,6 +99,12 @@ done
 hornet> bootm 9f020000
 
 
+Cambiar la password de root
+----------------------------
+
+	telnet 192.168.1.1
+	passwd
+
 Configurar repositorio de paquetes
 ----------------------------------
 	*opkg update (actualizar opkg)
