@@ -118,8 +118,8 @@ Configurar repositorio de paquetes
 --Instalar ser2net (opkg install ser2net):
 	*modificar /etc/ser2net.conf*
 	*agregar eliminar BANNERs
-	*2000:raw:0:/dev/ttyATH0: 19200 8DATABITS NONE -XONXOFF -RTSCTS          
-	*comentar #2000:raw:0:/dev/ttyATH0: 9600 8DATABITS NONE -XONXOFF -RTSCTS              
+2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS              
+#2000:raw:0:/dev/ttyATH0:9600 8DATABITS NONE -XONXOFF -RTSCTS                   
                    
 
 --Instalar kmod-video-uvc
