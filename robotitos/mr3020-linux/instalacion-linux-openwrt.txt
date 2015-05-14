@@ -136,13 +136,6 @@ r148-3_ar71xx.ipk
 --Cambiar la password de root
 --Habilitar la wifi: esto se logra eliminando de /etc/config/wireless la línea "disable 1"
 	
---En /etc/config/firewall agregar :
-	config zone           (no lo hicimos)                          
-        option name             wifi            
-        option network          'wifi'                                
-        option input            ACCEPT            
-        option output           ACCEPT            
-        option forward          REJECT    
 
 --En /etc/config/wireless
 	config wifi-iface
@@ -152,17 +145,29 @@ r148-3_ar71xx.ipk
         option ssid     robotsfai //wifai
         option encryption none
 
---En /etc/config/network
-	config interface 'wifi'
-        option proto 'dhcp'
+--En /etc/config/network agregar esta seccion
+
+config interface 'wifi'
+	option proto 'static'
+	option ipaddr '10.0.20.202'
+	option netmask '255.255.255.0'
+
 
 
 --Ingresar comando (wifi down)
 
 --Deshabilitar mensajes del kernel: eliminar última línea de /etc/inittab con vi
 
---Hacer script para streaming:
+--Hacer script para streaming llamado /usr/bin/camara.sh :
 	mjpg_streamer -i "input_uvc.so -d /dev/video0 -y -r 160x120 -f 4" -o "output_http.so" -b (guardado como streaming.sh)
+
+/etc/rc.local :
+
+/etc/init.d/firewall stop
+/usr/sbin/ser2net
+/usr/bin/camara.sh &
+
+
 
 --Ingresar en otra terminal ejemplo: cd /home/marcos/Escritorio/linux
 marcos@marcos-N150-N210-N220:~/Escritorio/linux$ ls
