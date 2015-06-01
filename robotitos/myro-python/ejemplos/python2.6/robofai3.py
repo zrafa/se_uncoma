@@ -3,6 +3,7 @@ from myro import *
 from myro import getName as nombre
 from myro import forward as adelante, backward as atras
 from myro import turnLeft as izquierda, turnRight as derecha
+from time import stleep as esperar
 import subprocess
 import Image
 
@@ -136,6 +137,7 @@ def init():
 	print "adelante(.3,.2), atras(.3,.2),"
 	print "derecha(.3,.2), izquierda(.3,.2),"
 	print "foto(), verfoto(),"
+	print "esperar(),"
 	print "buscarcolor(COLOR), cuantocolor(COLOR)"
 	print "ROJO, VERDE, AZUL, BLANCO, NEGRO"
 
