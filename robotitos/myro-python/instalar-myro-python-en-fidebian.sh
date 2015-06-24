@@ -12,7 +12,7 @@ echo " - Bajamos el repositorio git de todo el software"
 git clone https://github.com/zrafa/se_uncoma.git || exit 1
 
 echo " - Instalamos otras dependencias necesarias para cvblob"
-apt-get install cmake libcv-dev libopencv-dev python-tk python-pil.imagetk
+apt-get -y install cmake libcv-dev libopencv-dev python-tk python-pil.imagetk
 
 
 echo " - Instalamos la biblioteca cvblob"

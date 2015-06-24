@@ -1,10 +1,13 @@
 Se puede intentar instalar todo el software de manera automatica con 
 
 En fidebian con :
+
 wget https://github.com/zrafa/se_uncoma/raw/master/robotitos/myro-python/instalar-myro-python-en-fidebian.sh
 sudo ./instalar-myro-python-en-fidebian.sh
 
+
 En versiones anteriores de Ubuntu:
+
 wget https://github.com/zrafa/se_uncoma/raw/master/robotitos/myro-python/instalar-myro.sh
 sudo ./instalar-myro.sh
 
