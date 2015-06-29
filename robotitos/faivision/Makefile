@@ -4,7 +4,7 @@ CFLAGS = -Wall -O2 -fPIC
 # LIBFLAGS = -lSDL -lSDL_image -lcurl 
 LIBFLAGS = -lcurl 
 INSTALL_DIR = /usr/local/lib
-CPPFLAGS = `pkg-config opencv cvblob --cflags --libs`
+CPPFLAGS = `pkg-config opencv cvblob --cflags --libs` -fPIC
 LIBCPPFLAGS = `pkg-config opencv cvblob --cflags --libs`
 
 objects = comm.o faivision.o
