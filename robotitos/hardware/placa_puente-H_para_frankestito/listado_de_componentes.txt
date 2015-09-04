@@ -1,0 +1,27 @@
+Listado de componentes para la placa controladora de motores
+============================================================
+
+Tiras de Pines :
+  - tira de 5 pines
+  - tira de 5 pines
+  - tira de 8 pines
+  - tira de 8 pines
+  - 4 tiras de 3 pines cada uno
+
+3 LEDs (colores a eleccion)
+
+4 Resistencias de 10K
+4 Resistencias de 1K
+1 diodito de seguridad
+
+3 Conectores machos de 4 pines cada uno
+
+1 puerto USB hembra estandar (como el de PC) 
+
+1 regulador de voltage L7805
+
+1 integrado puente H L293D
+
+1 zocalo para el integrado L293D de 16 conectores
+
+1 buzzer chico (speaker) general funcional con 5v o menos (como el de PC)
