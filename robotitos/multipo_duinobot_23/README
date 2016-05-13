@@ -1,0 +1,25 @@
+
+- Hay que tener arduino para duinobot v2.3
+
+duinopack-1.0-linux32.tar.gz
+
+   https://github.com/DuinoPack/v1.2/tree/master/linux
+
+
+- Ejemplo : 
+   Multiplo -> Simple Line
+
+
+- Verificar.
+
+- Obtener el .hex. Para eso, antes de compilar Archivos -> Preferencias ->
+  Mostrar resultado de compilacion.
+
+- Verificar (compilar).
+
+- En el panel inferior, obtener la ruta del archivo .hex generado.
+ 
+- Copiar el archivo a la carpeta del hiduploader.
+
+- Hacer la descarga del programa en el robot:
+   ./hiduploader -mmcu=atmega1284p -v -usb=0x2842,0x0001  nombre_archivo.hex
