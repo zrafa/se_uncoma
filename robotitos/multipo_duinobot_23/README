@@ -1,19 +1,29 @@
 
-- Hay que tener arduino para duinobot v2.3
+- Hay que tener el siguiente software:
 
-duinopack-1.0-linux32.tar.gz
+ 1)arduino para duinobot v2.3
 
-   https://github.com/DuinoPack/v1.2/tree/master/linux
+	duinopack-1.0-linux32.tar.gz
 
+   	https://github.com/DuinoPack/v1.2/tree/master/linux
 
-- Ejemplo : 
-   Multiplo -> Simple Line
+ 2)descargar las librerias faiduino en el directorio $HOME o donde se encuentren los sketchbook de arduino
 
+   	git clone https://github.com/zrafa/se_uncoma/robotitos/sketchbook/
 
-- Verificar.
+ 3)descargar hiduploader para cargar el programa en el robot
+	
+	https://github.com/zrafa/se_uncoma/blob/master/robotitos/multipo_duinobot_23/hiduploader.tar.gz
 
-- Obtener el .hex. Para eso, antes de compilar Archivos -> Preferencias ->
-  Mostrar resultado de compilacion.
+- Descomprimir los archivos descargados (duinopack-1.0-linux32.tar.gz y hiduploader.tar.gz)
+
+- Cargamos el faiduino_test en arduino:
+   1) En el directorio duinopack-1.0 ejecutar en la terminal:
+	./arduino
+   2) En el programa abierto, menu Archivo -> sketchbook -> faiduino_test
+
+- Obtener el .hex. Para eso, antes de compilar tildamos la opcion:
+   Archivos -> Preferencias -> Mostrar resultado de compilacion.
 
 - Verificar (compilar).
 
@@ -22,4 +32,5 @@ duinopack-1.0-linux32.tar.gz
 - Copiar el archivo a la carpeta del hiduploader.
 
 - Hacer la descarga del programa en el robot:
-   ./hiduploader -mmcu=atmega1284p -v -usb=0x2842,0x0001  nombre_archivo.hex
+   Ejecutamos en la terminal:
+   ./hiduploader -mmcu=atmega1284p -v -usb=0x2842,0x0001  faiduino_test.cpp.hex
