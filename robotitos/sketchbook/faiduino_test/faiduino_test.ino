@@ -1,4 +1,4 @@
-/*
+ /*
  * Implementacion del protocolo de Myro (http://myro.roboteducation.org/)
  * para un robotito basado en un arduino, dos motores legos, y un puente H L293D
  *
@@ -15,12 +15,28 @@
  * The example code is in the public domain.
  * http://www.arduino.cc/en/Tutorial/SerialEvent
  */
+#include <DCMotor.h>
+
+DCMotor motor0(M0_EN, M0_D0, M0_D1);
+DCMotor motor1(M1_EN, M1_D0, M1_D1);
 
 /*#include <string.h>*/
 #include <stdlib.h>
 #include <protocol.h>
 #include <motorcitos.h>
 #define TIMEOUT 1000
+
+int enviar_echo = 0;
+char respuesta[100];
+unsigned char echo[9];
+char once_bytes[11];
+char respuesta_tipo;
+int respuesta_len;
+int broadcast_name;
+int enviar_respuesta;
+int enviar_once_bytes;
+int enviar_ocho_bytes;
+int enviar_nl;
 
 int procesar_mensaje;
 unsigned char *mensaje;

@@ -18,9 +18,6 @@
 
  
  
-#ifdef __cplusplus
- extern "C" {
-#endif 
 
 #ifndef MOTORCITOS_H
 #define MOTORCITOS_H
@@ -35,6 +32,3 @@ void motorspeed(int motor1speed, int motor2speed);
  
 #endif /* MOTORCITOS_H */
 
-#ifdef __cplusplus
- }
-#endif 

@@ -18,43 +18,55 @@
  
 #include <Arduino.h>
 
+#include <DCMotor.h>
+
+// DCMotor motor0(M0_EN, M0_D0, M0_D1);
+// DCMotor motor1(M1_EN, M1_D0, M1_D1);
+
+extern DCMotor motor0;
+extern DCMotor motor1;
+
+//#define NUEVA_PLACA_LD293 1
+
+//#ifdef NUEVA_PLACA_LD293
+
 /* map motor poles to Arduino pins */
-#define motor1pole1 2
-#define motor1pole2 3
-#define motor2pole1 6
-#define motor2pole2 7
+#define motor1pole1 4 // 2
+#define motor1pole2 5 // 3
+#define motor2pole1 7 // 6
+#define motor2pole2 8 // 7
    
 /* map L293d motor enable pins to Arduino pins */
-#define enablePin1 9
-#define enablePin2 10
+#define enablePin1 3 // 9
+
+#define enablePin2 6 // 10
+
+
+//#else /* La vieja placa LD93 */
+
+/* map motor poles to Arduino pins */
+//#define motor1pole1 2
+//#define motor1pole2 3
+//#define motor2pole1 6
+//#define motor2pole2 7
    
+/* map L293d motor enable pins to Arduino pins */
+//#define enablePin1 9
+//#define enablePin2 10
+   
+//#endif
+
+
 #define M1_MAX_SPEED 255
 #define M2_MAX_SPEED 255
    
 #define motordelay 30
 
-void motorcitos_init() {
-
-	/* 
-	 * set mapped L283D motor1 and motor 2 enable pins on Arduino to output
-	 * (to turn on/off motor1 and motor2 via L293D)
-	 */
-	pinMode(enablePin1, OUTPUT);
-	pinMode(enablePin2, OUTPUT);
-  
-	/* set mapped motor poles to Arduino pins (via L293D) */
-	pinMode(motor1pole1, OUTPUT);
-	pinMode(motor1pole2, OUTPUT);
-	pinMode(motor2pole1, OUTPUT);
-	pinMode(motor2pole2, OUTPUT);
-	motorspeed(0, 0);
-	motorstop(2);
-	motorstop(1);
-}  
    
 
 /* MOTOR FUNCTIONS */
 void motorstop(int motornum) {
+#ifdef FAIDUINO_ORIGINAL
 	delay(motordelay);
 	if (motornum == 1) {
 		digitalWrite(motor1pole1, LOW);
@@ -64,6 +76,13 @@ void motorstop(int motornum) {
 		digitalWrite(motor2pole2, LOW);
   	}
   	delay(motordelay);
+#else
+	if (motornum == 1)
+		motor0.brake();
+	else
+		motor1.brake();
+#endif
+	
 }
    
 
@@ -93,6 +112,7 @@ void motorback(int motornum) {
 
 void motorspeed(int motor1speed, int motor2speed) {
 
+#ifdef FAIDUINO_ORIGINAL
 	if (motor1speed > M1_MAX_SPEED) motor1speed = M1_MAX_SPEED; /* limit top speed */
 	if (motor2speed > M2_MAX_SPEED) motor2speed = M2_MAX_SPEED; /* limit top speed */
 	/* El robot actual no puede ir a menos de velocidad==30, por el peso */
@@ -103,5 +123,35 @@ void motorspeed(int motor1speed, int motor2speed) {
 
 	analogWrite(enablePin1, motor1speed);
 	analogWrite(enablePin2, motor2speed);
+#else
+	if (motor1speed == 0)
+		motor0.brake();
+	else
+		motor0.setSpeed(motor1speed);
+
+	if (motor2speed == 0)
+		motor1.brake();
+	else
+		motor1.setSpeed(motor2speed);
+
+#endif
+
 } 
 
+void motorcitos_init() {
+	/* 
+	 * set mapped L283D motor1 and motor 2 enable pins on Arduino to output
+	 * (to turn on/off motor1 and motor2 via L293D)
+	 */
+	pinMode(enablePin1, OUTPUT);
+	pinMode(enablePin2, OUTPUT);
+  
+	/* set mapped motor poles to Arduino pins (via L293D) */
+	pinMode(motor1pole1, OUTPUT);
+	pinMode(motor1pole2, OUTPUT);
+	pinMode(motor2pole1, OUTPUT);
+	pinMode(motor2pole2, OUTPUT);
+	motorspeed(0, 0);
+	motorstop(2);
+	motorstop(1);
+}  

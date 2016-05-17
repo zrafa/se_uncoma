@@ -16,6 +16,23 @@
 #include "protocol.h";
 #include "Arduino.h";
 
+extern int enviar_echo;
+extern char respuesta[100];
+extern unsigned char echo[9];
+extern char once_bytes[11];
+extern char respuesta_tipo;
+extern int respuesta_len;
+extern int broadcast_name;
+extern int enviar_respuesta;
+extern int enviar_once_bytes;
+extern int enviar_ocho_bytes;
+extern int enviar_nl;
+
+/* GPIO de arduino para Myro */
+#define SPEAKER_GPIO 10
+#define LED_IZQ_GPIO 11
+#define LED_DER_GPIO 13
+
 #define	SOFT_RESET 33
 
 #define	GET_ALL 65 
@@ -72,6 +89,7 @@ struct faiduino_st {
 
 } faiduino;
 
+void faiduino_soft_reset();
 
 void faiduino_init() {
 
@@ -120,7 +138,9 @@ void faiduino_set_name2(unsigned char *nombre) {
 
 static void  faiduino_motores_feedback_init() {
         /* test de los motores */
-        motorspeed(60, 60);
+        // motorspeed(60, 60);
+#ifdef FAIDUINO_ORIGINAL
+        motorspeed(255, 255);
         motorback(1);
         motorback(2);        
         delay(800);
@@ -132,6 +152,17 @@ static void  faiduino_motores_feedback_init() {
         delay(800);
         motorstop(1);
         motorstop(2);
+#else
+	motorspeed(100, 100);
+        delay(800);
+        motorstop(1);
+        motorstop(2);
+        delay(1000);
+	motorspeed(-100, -100);
+        delay(800);
+        motorstop(1);
+        motorstop(2);
+#endif
 }
 
 static void  faiduino_led_feedback_init() {
@@ -158,6 +189,7 @@ void faiduino_soft_reset() {
 	char *n = "Frankest";
 	char *n2 = "ito     ";
 
+	/* motorcitos_init(); */
 	motorcitos_init();
 
 	/* leds */
@@ -274,11 +306,11 @@ void faiduino_set_echo_mode() {
 }
 
 void faiduino_set_led_left_on() {
-	digitalWrite(13, HIGH);
+	digitalWrite(LED_IZQ_GPIO, HIGH);
 }
 
 void faiduino_set_led_left_off() {
-	digitalWrite(13, LOW);
+	digitalWrite(LED_IZQ_GPIO, LOW);
 }
 
 void faiduino_set_led_center_on() {
@@ -288,11 +320,11 @@ void faiduino_set_led_center_off() {
 }
 
 void faiduino_set_led_right_on() {
-	digitalWrite(12, HIGH);
+	digitalWrite(LED_DER_GPIO, HIGH);
 }
 
 void faiduino_set_led_right_off() {
-	digitalWrite(12, LOW);
+	digitalWrite(LED_DER_GPIO, LOW);
 }
 
 void faiduino_set_led_all_on() {
@@ -324,6 +356,7 @@ void faiduino_set_motors(unsigned char speed1, unsigned char speed2) {
 	unsigned char m1speed;
 	unsigned char m2speed;
 
+#ifdef FAIDUINO_ORIGINAL
 	if (speed1 < 100)
 		m1speed = (99-speed1) * 255 / 99;
 	else if (speed1 > 100)
@@ -343,6 +376,20 @@ void faiduino_set_motors(unsigned char speed1, unsigned char speed2) {
 	if (speed2 < 100) motorback(2);
 	else if (speed2 > 100) motorforward(2);
 	else motorstop(2);
+#else
+	m1speed = 0;
+	if (speed1 != 100) {
+		m1speed = (speed1 - 100) * (-1);	
+	};
+	
+	m2speed = 0;
+	if (speed2 != 100) {
+		m2speed = (speed2 - 100) * (-1);	
+	};
+	
+	motorspeed(m1speed, m2speed);
+	
+#endif
 
 	char res[] = {SET_MOTORS, m1speed, m2speed, speed1, speed2, 0, 0, 0, 0 };
 
@@ -358,9 +405,9 @@ void faiduino_set_quiet() {
 }
 
 void faiduino_set_speaker(unsigned char duracion, unsigned char frecuencia) {
-	analogWrite(11, frecuencia);      // Almost any value can be used except 0 and 255
-	delay(duracion*1000);          // wait for a delayms ms
-	analogWrite(11, 0);       // 0 turns it off
+	analogWrite(SPEAKER_GPIO, frecuencia);      // Almost any value can be used except 0 and 255
+	delay(duracion*100);          // wait for a delayms ms
+	analogWrite(SPEAKER_GPIO, 0);       // 0 turns it off
 }
 
 void faiduino_set_speaker_2() {
