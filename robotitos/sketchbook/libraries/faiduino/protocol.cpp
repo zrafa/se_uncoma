@@ -353,10 +353,10 @@ void faiduino_set_motors_off() {
  * Notes: 0 = full speed backwards, 100 = stop, 200 = full speed forward
  */
 void faiduino_set_motors(unsigned char speed1, unsigned char speed2) {
-	unsigned char m1speed;
-	unsigned char m2speed;
 
 #ifdef FAIDUINO_ORIGINAL
+	unsigned char m1speed;
+	unsigned char m2speed;
 	if (speed1 < 100)
 		m1speed = (99-speed1) * 255 / 99;
 	else if (speed1 > 100)
@@ -377,6 +377,8 @@ void faiduino_set_motors(unsigned char speed1, unsigned char speed2) {
 	else if (speed2 > 100) motorforward(2);
 	else motorstop(2);
 #else
+	char m1speed;
+	char m2speed;
 	m1speed = 0;
 	if (speed1 != 100) {
 		m1speed = (speed1 - 100) * (-1);	
