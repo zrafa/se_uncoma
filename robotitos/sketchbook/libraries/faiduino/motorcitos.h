@@ -28,7 +28,7 @@ void motorcitos_init();
 void motorstop(int motornum);
 void motorforward(int motornum);
 void motorback(int motornum);
-void motorspeed(int motor1speed, int motor2speed);
+void motorspeed(char motor1speed, char motor2speed);
  
 #endif /* MOTORCITOS_H */
 

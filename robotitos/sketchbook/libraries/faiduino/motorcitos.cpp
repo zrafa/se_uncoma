@@ -110,7 +110,7 @@ void motorback(int motornum) {
 }
    
 
-void motorspeed(int motor1speed, int motor2speed) {
+void motorspeed(char motor1speed, char motor2speed) {
 
 #ifdef FAIDUINO_ORIGINAL
 	if (motor1speed > M1_MAX_SPEED) motor1speed = M1_MAX_SPEED; /* limit top speed */
