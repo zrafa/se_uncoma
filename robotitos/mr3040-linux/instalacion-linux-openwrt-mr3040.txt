@@ -1,0 +1,95 @@
+Instalar el firmware
+======================
+
+-Descargar el fichero binario que contiene el linux compilado para TL-MR3040 desde:
+https://drive.google.com/open?id=0B7j2x6Cq_WuRd0c4Nlpuc2t3c1k
+
+-Renombrar el fichero recién descargado cómo:
+openwrt-ar71xx-generic-tl-mr3040-v2-squashfs-factory.bin
+para poder ser flasheado correctamente por el router cómo una actualización de software
+
+Metodo usando interfaz gráfica Web (Recomendado)
+================================================
+
+Conectar el TL-MR3040 router via cable y en el navegador dirigirse a la dirección IP 192.168.0.1
+(default login/password: admin / admin)
+Instalar desde el apartado "System -> Firmware Update" seleccionando el archivo descargado en el primer paso y clickeando "Upgrade".
+Debemos esperar que se llene la barra de progreso 2 veces (en la primera instala el software y en la segunda se reinicia el router)
+
+Ahora podemos conectarnos a traves de una terminal
+
+Conectarnos al router por terminal y cambiar la password de root
+=================================================================
+Nos conectamos a traves de conexión SSH:
+
+	ssh 192.168.1.1
+
+Cambiamos la contraseña de superusuario del sistema:
+
+	passwd
+	(por defecto login/password: root/root)
+
+
+Configurar paquetes instalados
+==============================
+
+--Configurar ser2net:
+	*modificar /etc/ser2net.conf*
+	*agregar eliminar BANNERs
+	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS                 
+                   
+--Instalar mjpg-streamer:
+-Copiar los archivos descargados desde: https://drive.google.com/open?id=0B7j2x6Cq_WuRcnZfeXp3NUJKUzQ ejecutando los siguientes comandos
+ desde una terminal (como superusuario en la pc, no en el router) situada en la carpeta donde se encuentren los ficheros descargados:
+
+scp mjpg_streamer root@192.168.1.1
+scp start-mjpeg-streamer.sh root@192.168.1.1
+scp output_http.so root@192.168.1.1
+scp libjpeg.so root@192.168.1.1
+scp input_uvc.so root@192.168.1.1
+
+-Darle permiso de ejecución a los mismos desde la terminal que se encuentra conectada al router:
+chmod +x start-mjpeg-streamer.sh
+chmod +x mjpg_streamer
+
+Configurar sistema
+======================
+
+--En /etc/config/wireless copiar las siguientes configuraciones (ejecutar: vi /etc/config/wireless)
+	config wifi-iface
+        option device   radio0
+        option network  wifi
+        option mode     sta
+        option ssid     robotsfai //wifai
+        option encryption none
+        
+   -> eliminar la linea "disable 1" que se encuentra bajo el comentario para activar el wireless
+
+--En /etc/config/network agregar esta seccion al final del archivo (ejecutar: vi /etc/config/network) y reemplazar el * con el numero correspondiente
+
+config interface 'wifi'
+	option proto 'static'
+	option ipaddr '10.0.20.22*'
+	option netmask '255.255.255.0'
+
+--Ingresar comando wifi down - esperar unos segundos - wifi up para reiniciar la señal wifi
+
+--Deshabilitar los mensajes del kernel eliminando la última línea del fichero /etc/inittab (ejecutar: vi /etc/inittab)
+
+--Editar el fichero /etc/rc.local (ejecutar vi /etc/rc.local) añadiendo las siguientes lineas:
+
+/etc/init.d/firewall stop
+/usr/sbin/ser2net
+./root/start-mjpeg-streamer.sh &
+
+
+COMANDOS UTILES
+*ps : lista los procesos
+*vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape y para guardar ":wq"
+*pw : carpeta donde nos encontramos en la terminal
+*scp : copia segura a traves de red (en particular SSH para esta guia
+
+En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el router, sería recomendable descactivar desde alli el firewall
+
+/etc/init.d/firewall stop
+/etc/init.d/firewall disable
