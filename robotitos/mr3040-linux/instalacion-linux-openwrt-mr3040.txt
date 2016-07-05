@@ -42,11 +42,11 @@ Configurar paquetes instalados
 -Copiar los archivos descargados desde: https://drive.google.com/open?id=0B7j2x6Cq_WuRcnZfeXp3NUJKUzQ ejecutando los siguientes comandos
  desde una terminal (como superusuario en la pc, no en el router) situada en la carpeta donde se encuentren los ficheros descargados:
 
-scp mjpg_streamer root@192.168.1.1
-scp start-mjpeg-streamer.sh root@192.168.1.1
-scp output_http.so root@192.168.1.1
-scp libjpeg.so root@192.168.1.1
-scp input_uvc.so root@192.168.1.1
+scp mjpg_streamer root@192.168.1.1:
+scp start-mjpeg-streamer.sh root@192.168.1.1:
+scp output_http.so root@192.168.1.1:
+scp libjpeg.so root@192.168.1.1:
+scp input_uvc.so root@192.168.1.1:
 
 -Darle permiso de ejecución a los mismos desde la terminal que se encuentra conectada al router:
 chmod +x start-mjpeg-streamer.sh
@@ -60,7 +60,7 @@ Configurar sistema
         option device   radio0
         option network  wifi
         option mode     sta
-        option ssid     robotsfai //wifai
+        option ssid     robotsfai
         option encryption none
         
    -> eliminar la linea "disable 1" que se encuentra bajo el comentario para activar el wireless
@@ -80,7 +80,7 @@ config interface 'wifi'
 
 /etc/init.d/firewall stop
 /usr/sbin/ser2net
-./root/start-mjpeg-streamer.sh &
+/root/start-mjpeg-streamer.sh &
 
 
 COMANDOS UTILES
