@@ -1,6 +1,6 @@
-=========================================================
-ATENCION: Lista de comandos útiles al final del archivo
-=========================================================
+=======================================================================
+ATENCION: Lista de comandos útiles al final del archivo junto con FAQ
+=======================================================================
 
 
 Instalar el firmware
@@ -18,16 +18,19 @@ Metodo usando interfaz gráfica Web (Recomendado)
 
 Conectar el TL-MR3040 router via cable y en el navegador dirigirse a la dirección IP 192.168.0.1
 (default login/password: admin / admin)
-Instalar desde el apartado "System -> Firmware Update" seleccionando el archivo descargado en el primer paso y clickeando "Upgrade".
+Instalar desde el apartado "System Tools -> Firmware Upgrade" seleccionando el archivo descargado en el primer paso y clickeando "Upgrade".
+Confirmar la acción en el cartel emergente que aparece ("Siguiente" / "Aceptar").
 Debemos esperar que se llene la barra de progreso 2 veces (en la primera instala el software y en la segunda se reinicia el router)
 
-Ahora podemos conectarnos a traves de una terminal
+Ahora podemos conectarnos a traves de una terminal.
 
 Conectarnos al router por terminal y cambiar la password de root
 =================================================================
-Nos conectamos a traves de conexión SSH:
+Nos conectamos a traves de conexión SSH ejecutando en una terminal:
 
 	ssh root@192.168.1.1
+	
+(puede aparecer una confirmación de key fingerprint dependiendo del sistema, aceptar escribiendo "yes")
 
 Cambiamos la contraseña de superusuario del sistema:
 
@@ -39,16 +42,16 @@ Configurar paquetes instalados
 ==============================
 
 --Configurar ser2net:
-	*modificar /etc/ser2net.conf*
-	*eliminar todas las lineas BANNERs
-	*agregar la siguiente linea BANNERs (ejecutar: vi /etc/ser2net.conf)
+	-Modificar /etc/ser2net.conf (ejecutar: vi /etc/ser2net.conf)
+	-Eliminar todas las lineas BANNERs
+	-Agregar la siguiente linea BANNERs 
 	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS   
 	
 	(Debería quedar únicamente la linea copiada arriba en el fichero)              
                    
 --Instalar mjpg-streamer:
 -Copiar los archivos descargados desde: https://drive.google.com/open?id=0B7j2x6Cq_WuRcnZfeXp3NUJKUzQ ejecutando los siguientes comandos
- desde una terminal (como superusuario en la pc, no en el router) situada en la carpeta donde se encuentren los ficheros descargados:
+ desde una nueva terminal (como superusuario en la pc, no en el router) situada en la carpeta donde se encuentren los ficheros descargados (mjpg-streamer):
 
 scp mjpg_streamer root@192.168.1.1:
 scp start-mjpeg-streamer.sh root@192.168.1.1:
@@ -88,14 +91,20 @@ config interface 'wifi'
 
 /etc/init.d/firewall stop
 /usr/sbin/ser2net
-/root/start-mjpeg-streamer.sh &
+./root/start-mjpeg-streamer.sh &
 
 Reiniciar el router
 ======================
---Desde la terminal con el comando "reboot"
+--Desde la terminal con el comando "reboot".
+
+Con esto finaliza la instalación, ya puede desconectar el router y cerrar las terminales
+ante cualquier duda verifique el apartado FAQ donde se detalla cómo comprobar el correcto
+funcionamiento del mismo y soluciones a problemas comunes.
 
 
+================
 COMANDOS UTILES
+================
 *ps : lista los procesos
 *vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape -para eliminar una linea presionar "dd" y para guardar ":wq"
 *pw : carpeta donde nos encontramos en la terminal
@@ -135,3 +144,37 @@ En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el ro
  Q-No consigo conectarme al router via Wifi, el comando PING no llega a destino
  A- Verificar en los archivos /etc/config/network y /etc/config/wireless que el ssid sea del wifi esperado y
 	que la direccion ip pertenezca al rango direccionable de la red.
+
+ 
+ Q-No pude conectarme al inicio con el router a traves de la direccion IP 192.168.0.1
+ A- Verificar que el cable ethernet este conectado correctamente en la computadora y en el router, que el mismo
+	tiene bateria (de no ser asi, se puede conectar al puerto USB de la computadora con el incorporado al kit)
+	y que se encuentra encendido (Switch On/Off en el costado del router).
+	Desconectar otras redes del sistema por cualquier inconveniente.
+	
+ Q-No puedo descargar los archivos necesarios a pesar de que funciona correctamente internet
+ A- Posiblemente el sistema intente acceder a internet a través de la conexión con el router que estamos configurando,
+	esto se soluciona desconectando el mismo de la computadora o apagandolo en su defecto. Asegurarse de no hacelo
+	al momento de instalar el sistema (cuando estamos en el apartado "Metodo usando interfaz gráfica Web (Recomendado)"
+	Se puede volver a conectar al mismo simplemente ejecutando el comando ssh root@192.168.1.1 en una terminal.
+	
+ Q-Al momento de conectarme por SSH al router tengo un error de seguridad, ¿cómo puedo solucionarlo?
+ A- Si al momento de ejecutar SSH obtenemos un error del estilo:
+	
+	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+	Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+	It is also possible that a host key has just been changed.
+	The fingerprint for the RSA key sent by the remote host is
+	SHA256:BXKX5vXcvh01jtisoXdXvXzXSeiqXZsXl359BXXXXpX.
+	Please contact your system administrator.
+	Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
+	Offending RSA key in /home/user/.ssh/known_hosts:2
+	RSA host key for 192.168.1.1 has changed and you have requested strict checking.
+	Host key verification failed.
+	
+	Se puede solucionar editando el fichero /home/user/.ssh/known_hosts (donde "user" es el nombre de usuario logeado en el sistema)
+	y eliminando la linea que corresponde al numero que viene a continuacion de ":" (en este caso /home/user/.ssh/known_hosts:2 seria la segunda linea)
+
