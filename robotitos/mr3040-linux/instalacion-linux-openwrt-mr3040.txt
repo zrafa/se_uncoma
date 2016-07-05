@@ -35,7 +35,8 @@ Configurar paquetes instalados
 
 --Configurar ser2net:
 	*modificar /etc/ser2net.conf*
-	*agregar eliminar BANNERs
+	*eliminar todas las lineas BANNERs
+	*agregar la siguiente linea BANNERs
 	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS                 
                    
 --Instalar mjpg-streamer:
