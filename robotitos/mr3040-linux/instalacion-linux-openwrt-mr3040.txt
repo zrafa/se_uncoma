@@ -87,11 +87,18 @@ config interface 'wifi'
 
 --Deshabilitar los mensajes del kernel eliminando la última línea del fichero /etc/inittab (ejecutar: vi /etc/inittab)
 
---Editar el fichero /etc/rc.local (ejecutar vi /etc/rc.local) añadiendo las siguientes lineas:
+--Editar el fichero /etc/rc.local (ejecutar vi /etc/rc.local) añadiendo las siguientes lineas al inicio del archivo:
 
 /etc/init.d/firewall stop
 /usr/sbin/ser2net
-./root/start-mjpeg-streamer.sh &
+/root/start-mjpeg-streamer.sh &
+
+Debe quedar de esta manera:
+/etc/init.d/firewall stop
+/usr/sbin/ser2net
+/root/start-mjpeg-streamer.sh &
+exit 0
+
 
 Reiniciar el router
 ======================
@@ -137,7 +144,8 @@ En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el ro
 	2) desde un navegador web (Firefox - Chromium - etc.):
 		- ir a la direccion 10.0.20.*:8080/?action=snapshot
 		- verificar que la imagen tomada corresponde a la camara web conectada al router
-		
+		- Si la camara no funciona, verificar que este conectada y reiniciar el router, si no se encuentra conectada al puerto USB
+		  al momento del inicio, el script falla y se cierra.
 	donde * es la dirección asignada en el archivo /etc/config/network
 	
 	
