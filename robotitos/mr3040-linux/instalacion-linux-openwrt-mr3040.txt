@@ -94,14 +94,44 @@ Reiniciar el router
 ======================
 --Desde la terminal con el comando "reboot"
 
+
 COMANDOS UTILES
 *ps : lista los procesos
 *vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape -para eliminar una linea presionar "dd" y para guardar ":wq"
 *pw : carpeta donde nos encontramos en la terminal
 *scp : copia segura a traves de red (en particular SSH para esta guia
 *Para copiar en una terminal utilizar ctrl+shift+c y para pegar ctrl+shift+v
+*Para detener un proceso de la terminal presionar ctrl + c
 
 En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el router, sería recomendable descactivar desde alli el firewall
 
 /etc/init.d/firewall stop
 /etc/init.d/firewall disable
+
+
+======
+-FAQ-
+======
+
+ Q-¿Cómo puedo verificar que esté funcionando correctamente el sistema?
+ A- La verificación mas sencilla es por medio de una terminal - a través de WiFi (habiendo desconectado el cable ethernet) ejecutar:
+	1) ping 10.0.20.*
+		luego de unos segundos debe verse una serie de paquetes del estilo:
+			64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=31.8 ms
+			64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=37.2 ms
+			64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=29.5 ms
+			64 bytes from 8.8.8.8: icmp_seq=4 ttl=51 time=28.6 ms
+		si el mensaje recibido es:
+			ping: unknown host 10.0.20.*
+		o no hay respuesta, verificar el siguiente apartado de Q&A
+		
+	2) desde un navegador web (Firefox - Chromium - etc.):
+		- ir a la direccion 10.0.20.*:8080/?action=snapshot
+		- verificar que la imagen tomada corresponde a la camara web conectada al router
+		
+	donde * es la dirección asignada en el archivo /etc/config/network
+	
+	
+ Q-No consigo conectarme al router via Wifi, el comando PING no llega a destino
+ A- Verificar en los archivos /etc/config/network y /etc/config/wireless que el ssid sea del wifi esperado y
+	que la direccion ip pertenezca al rango direccionable de la red.
