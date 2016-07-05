@@ -1,3 +1,8 @@
+=========================================================
+ATENCION: Lista de comandos útiles al final del archivo
+=========================================================
+
+
 Instalar el firmware
 ======================
 
@@ -86,9 +91,10 @@ config interface 'wifi'
 
 COMANDOS UTILES
 *ps : lista los procesos
-*vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape y para guardar ":wq"
+*vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape -para eliminar una linea presionar "dd" y para guardar ":wq"
 *pw : carpeta donde nos encontramos en la terminal
 *scp : copia segura a traves de red (en particular SSH para esta guia
+*Para copiar en una terminal utilizar ctrl+shift+c y para pegar ctrl+shift+v
 
 En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el router, sería recomendable descactivar desde alli el firewall
 
