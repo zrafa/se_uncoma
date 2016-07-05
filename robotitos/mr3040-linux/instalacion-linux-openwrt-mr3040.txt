@@ -42,7 +42,9 @@ Configurar paquetes instalados
 	*modificar /etc/ser2net.conf*
 	*eliminar todas las lineas BANNERs
 	*agregar la siguiente linea BANNERs (ejecutar: vi /etc/ser2net.conf)
-	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS                 
+	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS   
+	
+	(Debería quedar únicamente la linea copiada arriba en el fichero)              
                    
 --Instalar mjpg-streamer:
 -Copiar los archivos descargados desde: https://drive.google.com/open?id=0B7j2x6Cq_WuRcnZfeXp3NUJKUzQ ejecutando los siguientes comandos
@@ -88,6 +90,9 @@ config interface 'wifi'
 /usr/sbin/ser2net
 /root/start-mjpeg-streamer.sh &
 
+Reiniciar el router
+======================
+--Desde la terminal con el comando "reboot"
 
 COMANDOS UTILES
 *ps : lista los procesos
