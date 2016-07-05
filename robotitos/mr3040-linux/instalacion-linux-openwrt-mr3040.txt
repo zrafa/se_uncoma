@@ -22,7 +22,7 @@ Conectarnos al router por terminal y cambiar la password de root
 =================================================================
 Nos conectamos a traves de conexión SSH:
 
-	ssh 192.168.1.1
+	ssh root@192.168.1.1
 
 Cambiamos la contraseña de superusuario del sistema:
 
@@ -36,7 +36,7 @@ Configurar paquetes instalados
 --Configurar ser2net:
 	*modificar /etc/ser2net.conf*
 	*eliminar todas las lineas BANNERs
-	*agregar la siguiente linea BANNERs
+	*agregar la siguiente linea BANNERs (ejecutar: vi /etc/ser2net.conf)
 	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS                 
                    
 --Instalar mjpg-streamer:
