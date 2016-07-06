@@ -45,7 +45,7 @@ Configurar paquetes instalados
 	-Modificar /etc/ser2net.conf (ejecutar: vi /etc/ser2net.conf)
 	-Eliminar todas las lineas BANNERs
 	-Agregar la siguiente linea BANNERs 
-	2000:raw:0:/dev/ttyATH0:19200 8DATABITS NONE -XONXOFF -RTSCTS   
+	2000:raw:0:/dev/ttyATH0:9600 8DATABITS NONE -XONXOFF -RTSCTS   
 	
 	(Debería quedar únicamente la linea copiada arriba en el fichero)              
                    
