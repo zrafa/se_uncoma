@@ -45,7 +45,7 @@ void setup() {
 
 	faiduino_init();
 
-	Serial.begin(9600);
+	Serial1.begin(9600);
 	
         mensaje = (unsigned char *)malloc(9);
 }
@@ -83,7 +83,7 @@ void blink() {
 }
 
 void sendnl() {
-	Serial.write('\n');
+	Serial1.write('\n');
 }
 
 void sendecho(const unsigned char *msj, int len) {
@@ -92,7 +92,7 @@ void sendecho(const unsigned char *msj, int len) {
 
 	for (i=0; i<len; i++) {
 		val = msj[i];
-		Serial.write(val);
+		Serial1.write(val);
 	}
 }
 
@@ -102,7 +102,7 @@ void sendanswer(const char *msj, int len) {
 
 	for (i=0; i<len; i++) {
 		val = msj[i];
-		Serial.write(val);
+		Serial1.write(val);
 	}
 }
 
@@ -130,16 +130,16 @@ int es_codigo(unsigned char t) {
  *
  * Obtenemos un mensaje y lo procesamos
  */
-void serialEvent() {
+void serialEvent1() {
   
 	int i;
 	char inChar;
 
-	while (Serial.available()) {
+	while (Serial1.available()) {
                 broadcast_name = 0;
                 
 		/* buscamos el inicio de un nuevo mensaje */
-		inChar = (char)Serial.read();
+		inChar = (char)Serial1.read();
 
 /*		while (!es_codigo(inChar))
 			inChar = (char)Serial.read();*/
@@ -149,8 +149,8 @@ void serialEvent() {
 
                 i=1;
                 while (i<9) {
-        	while (Serial.available()) {	
-       			inChar = (char)Serial.read();
+        	while (Serial1.available()) {	
+       			inChar = (char)Serial1.read();
 			mensaje[i] = (unsigned char)inChar;
                         i++;
                 }
