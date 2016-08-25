@@ -1,0 +1,46 @@
+Instrucciones para utilizar el robot
+------------------------------------
+
+- Enchufar el routercito.
+
+- Encender la notebook, ingresa automaticamente.
+
+- Encender el robot. Tenés que esperar el feedback del robot.
+IMPORTANTE: hasta el feedback, hay que sostener el robot con la mano o dejarlo en el piso con espacio.
+Feedback: Consiste en ir hacia atrás y luego hacia adelante
+(es decir, el robot, retrocede un segundo y avanza un segundo).
+
+- Una vez iniciado el robot, conectar la notebook a la red "robotsfai"
+
+- Abrir una Terminal: Menú -> Terminal
+
+En la terminal:
+
+cd extension/
+
+python
+
+# desde el intérprete de python
+
+>>> from robofai3 import *
+>>> init()
+
+# Init demora un poco, pero luego de un rato, y si la conexión al robot
+# anduvo bien
+# se pueden utilizar las primitivas para mover el robot
+
+>>> adelante(1,1)    # avanzar hacia adelante un segundo a maxima velocidad
+>>> atras(.3, 1)     # ir hacia atrás un segundo, a velocidad media
+
+
+Si el proceso parece no responder corroborar la red wireless, que el 
+router y robot estén encendido.
+Para reiniciar el proceso de software conviene cerrar la terminal
+y abrir una nueva (esto termina los procesos colgados que hayan quedado
+conectados al robot).
+
+
+
+
+
+
