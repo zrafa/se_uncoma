@@ -379,8 +379,8 @@ void faiduino_set_motors(unsigned char speed1, unsigned char speed2) {
 #else
 	m1speed = 0;
 	if (speed1 != 100) {
-		// m1speed = (char) ((speed1 - 100) * (-1));	
-		m1speed = (char) ((speed1 - 100));	
+		m1speed = (char) ((speed1 - 100) * (-1));	
+		//m1speed = (char) ((speed1 - 100));	
 	};
 	
 	m2speed = 0;
