@@ -63,16 +63,20 @@ scp libjpeg_6b-1_ar71xx.ipk root@192.168.1.1:
 scp libpthread_0.9.33.2-1_ar71xx.ipk
 scp mjpg-streamer_r148-3_ar71xx.ipk root@192.168.1.1:
 scp start-mjpeg-streamer.sh root@192.168.1.1:
+scp kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk root@192.168.1.1:
 
 -Instalar en el router (en la terminal conectada al mismo) los archivos recientemente copiados:
 opkg install libjpeg_6b-1_ar71xx.ipk
 opkg install libpthread_0.9.33.2-1_ar71xx.ipk 
 opkg install mjpg-streamer_r148-3_ar71xx.ipk 
+opkg install kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk
+
 
 -Limpiar los ficheros ya instalados para conservar el espacio en el router (en la terminal conectada al mismo)
 rm libpthread_0.9.33.2-1_ar71xx.ipk 
 rm libjpeg_6b-1_ar71xx.ipk
 rm mjpg-streamer_r148-3_ar71xx.ipk
+rm kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk
 
 -Darle permiso de ejecución al script de conexión con la camara desde la terminal que se encuentra conectada al router:
 chmod +x start-mjpeg-streamer.sh
