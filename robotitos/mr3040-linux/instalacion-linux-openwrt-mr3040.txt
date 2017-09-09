@@ -26,16 +26,19 @@ Ahora podemos conectarnos a traves de una terminal.
 
 Conectarnos al router por terminal y cambiar la password de root
 =================================================================
-Nos conectamos a traves de conexión SSH ejecutando en una terminal:
+Nos conectamos a traves de conexión telnet una única vez:
 
-	ssh root@192.168.1.1
-	
-(puede aparecer una confirmación de key fingerprint dependiendo del sistema, aceptar escribiendo "yes")
+	telnet 192.168.1.1
 
 Cambiamos la contraseña de superusuario del sistema:
 
 	passwd
 	(por defecto login/password: root/root)
+
+A partir de este momento, las conexiones por terminal serán a través de SSH (ssh root@192.168.1.1). Es posible que la primera vez suceda algún error, por favor revisar el FAQ
+que se encuentra sobre el final del archivo.
+	
+(puede aparecer una confirmación de key fingerprint dependiendo del sistema, aceptar escribiendo "yes")
 
 
 Configurar paquetes instalados
@@ -176,7 +179,7 @@ En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el ro
 	Someone could be eavesdropping on you right now (man-in-the-middle attack)!
 	It is also possible that a host key has just been changed.
 	The fingerprint for the RSA key sent by the remote host is
-	SHA256:BXKX5vXcvh01jtisoXdXvXzXSeiqXZsXl359BXXXXpX.
+	SHA256:BXKX5vXcvhXXjXisoXdXvXzXSeiqXZsXl3XXBXXXXpX.
 	Please contact your system administrator.
 	Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
 	Offending RSA key in /home/user/.ssh/known_hosts:2
