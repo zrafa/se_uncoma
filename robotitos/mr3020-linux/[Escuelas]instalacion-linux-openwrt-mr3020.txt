@@ -1,0 +1,223 @@
+=======================================================================
+ATENCION: Lista de comandos útiles al final del archivo junto con FAQ
+=======================================================================
+
+
+Instalar el firmware
+======================
+
+-Descargar el fichero binario que contiene el linux compilado para TL-MR3020 desde:
+https://drive.google.com/file/d/0B7mMS3Uur8uUYi16V2l0N0ljWUU/view?usp=sharing
+
+-Renombrar el fichero recién descargado cómo (si tuviese otro nombre):
+openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin
+para poder ser flasheado correctamente por el router cómo una actualización de software
+
+Metodo usando interfaz gráfica Web (Recomendado)
+================================================
+
+Conectar el TL-MR3020 router via cable y en el navegador dirigirse a la dirección IP 192.168.0.254
+(default login/password: admin / admin)
+Instalar desde el apartado "System -> Firmware Update" seleccionando el archivo descargado en el primer paso y clickeando "Upgrade".
+Debemos esperar que se llene la barra de progreso 2 veces (en la primera instala el software y en la segunda se reinicia el router)
+
+Ahora podemos conectarnos a traves de una terminal.
+
+
+Conectarnos al router por terminal y cambiar la password de root
+=================================================================
+Nos conectamos a traves de conexión telnet una única vez:
+
+	telnet 192.168.1.1
+
+Cambiamos la contraseña de superusuario del sistema:
+
+	passwd
+	(por defecto login/password: root/root)
+
+A partir de este momento, las conexiones por terminal serán a través de SSH (ssh root@192.168.1.1). Es posible que la primera vez suceda algún error, por favor revisar el FAQ
+que se encuentra sobre el final del archivo.
+
+Configurar paquetes instalados
+==============================
+
+--Instalar ser2net:
+	-Abrir una nueva terminal en la carpeta donde se encuentran los archivos descargados o de paqueteria (/packages).
+	-Copiar el paquete de instalación de ser2net al router (scp ser2net_2.7-2_ar71xx.ipk root@192.168.1.1:).
+	-Conectarse al dispositivo (ssh root@192.168.1.1 o utilizar la terminal que veniamos usando anteriormente) e instalar ser2net (opkg install ser2net_2.7-2_ar71xx.ipk). 
+	-Para conservar el poco espacio con el que contamos en el dispositivo, limpiamos el package (rm ser2net_2.7-2_ar71xx.ipk). 
+
+--Configurar ser2net:
+	-Modificar /etc/ser2net.conf (ejecutar: vi /etc/ser2net.conf)
+	-Eliminar todas las lineas BANNERs
+	-Agregar la siguiente linea: 
+	2000:raw:0:/dev/ttyATH0:9600 8DATABITS NONE -XONXOFF -RTSCTS   
+	
+	(Debería quedar únicamente la linea copiada arriba en el fichero).      
+                   
+--Instalar mjpg-streamer:
+-Copiar los archivos descargados desde: https://drive.google.com/drive/folders/0B7mMS3Uur8uUeWp0bHNMX0xvQVk?usp=sharing ejecutando los siguientes comandos
+ desde una nueva terminal (como superusuario en la pc, no en el router) situada en la carpeta donde se encuentren los ficheros descargados:
+
+scp libjpeg_6b-1_ar71xx.ipk root@192.168.1.1:
+scp libpthread_0.9.33.2-1_ar71xx.ipk
+scp mjpg-streamer_r148-3_ar71xx.ipk root@192.168.1.1:
+scp start-mjpeg-streamer.sh root@192.168.1.1:
+scp kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk root@192.168.1.1:
+
+-Instalar en el router (en la terminal conectada al mismo) los archivos recientemente copiados:
+opkg install libjpeg_6b-1_ar71xx.ipk
+opkg install libpthread_0.9.33.2-1_ar71xx.ipk 
+opkg install mjpg-streamer_r148-3_ar71xx.ipk 
+opkg install kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk
+
+
+-Limpiar los ficheros ya instalados para conservar el espacio en el router (en la terminal conectada al mismo)
+rm libpthread_0.9.33.2-1_ar71xx.ipk 
+rm libjpeg_6b-1_ar71xx.ipk
+rm mjpg-streamer_r148-3_ar71xx.ipk
+rm kmod-video-uvc_3.7.9-1_ar71xx.ipk kmod-video-videobuf2_3.7.9-1_ar71xx.ipk kmod-video-core_3.7.9-1_ar71xx.ipk kmod-input-core_3.7.9-1_ar71xx.ipk
+
+-Darle permiso de ejecución al script de conexión con la camara desde la terminal que se encuentra conectada al router:
+chmod +x start-mjpeg-streamer.sh
+
+
+
+Configurar sistema
+======================
+
+--En /etc/config/wireless copiar las siguientes configuraciones (ejecutar: vi /etc/config/wireless) si ya existe una definición de wifi-iface para el device 'radio0' se puede borrar o comentar.
+	config wifi-iface
+        option device   radio0
+        option network  wifi
+        option mode     ap
+        option ssid     NOMBREDELROBOT
+        option encryption none
+        
+   -> eliminar la linea "disable 1" que se encuentra bajo el comentario para activar el wireless
+
+--En /etc/config/network eliminar la sección 'wifi' y agregar esta seccion al final del archivo (ejecutar: vi /etc/config/network) y reemplazar el * con el numero correspondiente -o distintivo del robot-
+
+config interface 'wifi'
+	option ifname 'eth0'
+	option proto 'static'
+	option ipaddr '10.0.1*0.1'
+	option netmask '255.255.255.0'
+
+Debe quedar algo similiar a:
+
+config interface 'loopback'
+	option ifname 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config interface 'lan'
+	option ifname 'eth0'
+	option type 'bridge'
+	option proto 'static'
+	option ipaddr '10.0.1*0.1'
+	option netmask '255.255.255.0'
+
+--Ingresar comando wifi down - esperar unos segundos - wifi up para reiniciar la señal wifi.
+
+--Deshabilitar los mensajes del kernel eliminando la última línea del fichero /etc/inittab (ejecutar: vi /etc/inittab)
+
+--Editar el fichero /etc/rc.local (ejecutar vi /etc/rc.local) añadiendo las siguientes lineas al inicio del archivo:
+
+/etc/init.d/firewall stop
+/usr/sbin/ser2net
+./root/start-mjpeg-streamer.sh &
+
+Debe quedar de esta manera:
+
+/etc/init.d/firewall stop
+/usr/sbin/ser2net
+./root/start-mjpeg-streamer.sh &
+exit 0
+
+
+Reiniciar el router
+======================
+--Desde la terminal con el comando "reboot".
+
+Con esto finaliza la instalación, ya puede desconectar el router y cerrar las terminales
+ante cualquier duda verifique el apartado FAQ donde se detalla cómo comprobar el correcto
+funcionamiento del mismo y soluciones a problemas comunes.
+
+
+================
+COMANDOS UTILES
+================
+*ps : lista los procesos
+*vi (editor de textos) - Para añadir texto presionar "i" -para terminar la edicion presionar Escape -para eliminar una linea presionar "dd" y para guardar ":wq"
+*pw : carpeta donde nos encontramos en la terminal
+*scp : copia segura a traves de red (en particular SSH para esta guia
+*Para copiar en una terminal utilizar ctrl+shift+c y para pegar ctrl+shift+v
+*Para detener un proceso de la terminal presionar ctrl + c
+
+En /etc/init.d se encuentran todos los scripts que se ejecutan al encender el router, sería recomendable descactivar desde alli el firewall
+
+/etc/init.d/firewall stop
+/etc/init.d/firewall disable
+
+
+==========================
+-FAQ- Preguntas Frecuentes
+==========================
+
+ Q-¿Cómo puedo verificar que esté funcionando correctamente el sistema?
+ A- La verificación mas sencilla es por medio de una terminal - a través de WiFi (habiendo desconectado el cable ethernet) ejecutar:
+	1) ping 10.0.20.*
+		luego de unos segundos debe verse una serie de paquetes del estilo:
+			64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=31.8 ms
+			64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=37.2 ms
+			64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=29.5 ms
+			64 bytes from 8.8.8.8: icmp_seq=4 ttl=51 time=28.6 ms
+		si el mensaje recibido es:
+			ping: unknown host 10.0.20.*
+		o no hay respuesta, verificar el siguiente apartado de Q&A
+		
+	2) desde un navegador web (Firefox - Chromium - etc.):
+		- ir a la direccion 10.0.20.*:8080/?action=snapshot
+		- verificar que la imagen tomada corresponde a la camara web conectada al router
+		- Si la camara no funciona, verificar que este conectada y reiniciar el router, si no se encuentra conectada al puerto USB
+		  al momento del inicio, el script falla y se cierra.
+		donde * es la dirección asignada en el archivo /etc/config/network
+	
+	
+ Q-No consigo conectarme al router via Wifi, el comando PING no llega a destino
+ A- Verificar en los archivos /etc/config/network y /etc/config/wireless que el ssid sea del wifi esperado y
+	que la direccion ip pertenezca al rango direccionable de la red.
+ 
+ Q-No pude conectarme al inicio con el router a traves de la direccion IP 192.168.0.1
+ A- Verificar que el cable ethernet este conectado correctamente en la computadora y en el router
+	y que se encuentra encendido (Switch On/Off en el costado del router).
+	Desconectar otras redes del sistema por cualquier inconveniente.
+	
+ Q-No puedo descargar los archivos necesarios a pesar de que funciona correctamente internet
+ A- Posiblemente el sistema intente acceder a internet a través de la conexión con el router que estamos configurando,
+	esto se soluciona desconectando el mismo de la computadora o apagandolo en su defecto. Asegurarse de no hacelo
+	al momento de instalar el sistema (cuando estamos en el apartado "Metodo usando interfaz gráfica Web (Recomendado)"
+	Se puede volver a conectar al mismo simplemente ejecutando el comando ssh root@192.168.1.1 en una terminal.
+	
+ Q-Al momento de conectarme por SSH al router tengo un error de seguridad, ¿cómo puedo solucionarlo?
+ A- Si al momento de ejecutar SSH obtenemos un error del estilo:
+	
+	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+	Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+	It is also possible that a host key has just been changed.
+	The fingerprint for the RSA key sent by the remote host is
+	SHA256:BXKX5vXcvh01jtXsoXdXvXzXSXiqXZsXl359BXXXXpX.
+	Please contact your system administrator.
+	Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
+	Offending RSA key in /home/user/.ssh/known_hosts:2
+	RSA host key for 192.168.1.1 has changed and you have requested strict checking.
+	Host key verification failed.
+	
+	Se puede solucionar editando el fichero /home/user/.ssh/known_hosts (donde "user" es el nombre de usuario logeado en el sistema)
+	y eliminando la linea que corresponde al numero que viene a continuacion de ":" (en este caso /home/user/.ssh/known_hosts:2 seria la segunda linea)
+
